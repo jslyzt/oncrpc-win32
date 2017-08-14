@@ -20,6 +20,7 @@
 /* this is derived from a public domain version of getopt */
 
 #include <string.h>
+#include <stdio.h>
 
 #ifdef _PPC_
 #include <io.h>

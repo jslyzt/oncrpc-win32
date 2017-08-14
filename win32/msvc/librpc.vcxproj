@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\nm_rpc_old.h" />
+    <ClInclude Include="..\include\pmapclnt_old.h" />
+    <ClInclude Include="..\include\pmapprot_old.h" />
+    <ClInclude Include="..\include\rpc\auth.h" />
+    <ClInclude Include="..\include\rpc\auth_uni.h" />
+    <ClInclude Include="..\include\rpc\bcopy.h" />
+    <ClInclude Include="..\include\rpc\clnt.h" />
+    <ClInclude Include="..\include\rpc\Netdb.h" />
+    <ClInclude Include="..\include\rpc\Pmap_cln.h" />
+    <ClInclude Include="..\include\rpc\Pmap_pro.h" />
+    <ClInclude Include="..\include\rpc\pmap_rmt.h" />
+    <ClInclude Include="..\include\rpc\Rpc.h" />
+    <ClInclude Include="..\include\rpc\rpc_msg.h" />
+    <ClInclude Include="..\include\rpc\svc.h" />
+    <ClInclude Include="..\include\rpc\svc_auth.h" />
+    <ClInclude Include="..\include\rpc\types.h" />
+    <ClInclude Include="..\include\rpc\xdr.h" />
+    <ClInclude Include="..\librpc\all_oncrpc.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\librpc\authunix.c" />
+    <ClCompile Include="..\librpc\Auth_non.c" />
+    <ClCompile Include="..\librpc\Auth_uni.c" />
+    <ClCompile Include="..\librpc\bcopy.c" />
+    <ClCompile Include="..\librpc\Bindresv.c" />
+    <ClCompile Include="..\librpc\clnt_gen.c" />
+    <ClCompile Include="..\librpc\Clnt_per.c" />
+    <ClCompile Include="..\librpc\clnt_raw.c" />
+    <ClCompile Include="..\librpc\clnt_sim.c" />
+    <ClCompile Include="..\librpc\Clnt_tcp.c" />
+    <ClCompile Include="..\librpc\Clnt_udp.c" />
+    <ClCompile Include="..\librpc\Getrpcen.c" />
+    <ClCompile Include="..\librpc\Getrpcpo.c" />
+    <ClCompile Include="..\librpc\Get_myad.c" />
+    <ClCompile Include="..\librpc\nt.c" />
+    <ClCompile Include="..\librpc\Pmap_cln.c" />
+    <ClCompile Include="..\librpc\pmap_get.c" />
+    <ClCompile Include="..\librpc\pmap_gma.c" />
+    <ClCompile Include="..\librpc\pmap_pr.c" />
+    <ClCompile Include="..\librpc\pmap_pro.c" />
+    <ClCompile Include="..\librpc\Pmap_rmt.c" />
+    <ClCompile Include="..\librpc\rpc_call.c" />
+    <ClCompile Include="..\librpc\rpc_comm.c" />
+    <ClCompile Include="..\librpc\rpc_prot.c" />
+    <ClCompile Include="..\librpc\Svc.c" />
+    <ClCompile Include="..\librpc\svc_auth.c" />
+    <ClCompile Include="..\librpc\Svc_autu.c" />
+    <ClCompile Include="..\librpc\svc_raw.c" />
+    <ClCompile Include="..\librpc\Svc_run.c" />
+    <ClCompile Include="..\librpc\Svc_simp.c" />
+    <ClCompile Include="..\librpc\Svc_tcp.c" />
+    <ClCompile Include="..\librpc\Svc_udp.c" />
+    <ClCompile Include="..\librpc\Xdr.c" />
+    <ClCompile Include="..\librpc\Xdr_arra.c" />
+    <ClCompile Include="..\librpc\xdr_floa.c" />
+    <ClCompile Include="..\librpc\xdr_mem.c" />
+    <ClCompile Include="..\librpc\Xdr_rec.c" />
+    <ClCompile Include="..\librpc\Xdr_refe.c" />
+    <ClCompile Include="..\librpc\xdr_stdi.c" />
+    <ClCompile Include="..\librpc\Xdr_strarr.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\librpc\oncbcimp.def" />
+    <None Include="..\librpc\oncrpc.def" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{56756BCC-F20E-B29A-DD08-B7B9AEE10998}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>..\bin</OutDir>
+    <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\bin</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINNT;vax;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_WINNT;vax;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

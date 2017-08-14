@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{7de36f0e-2cf4-4365-886f-daa89da7ee6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\rpc">
+      <UniqueIdentifier>{c133c285-d0d0-4fa1-b6f4-e277bbdc55db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{9be028c0-926f-4343-ba03-97cd91ba5f98}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\nm_rpc_old.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\pmapclnt_old.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\pmapprot_old.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\auth.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\auth_uni.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\bcopy.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\clnt.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\Netdb.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\Pmap_cln.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\Pmap_pro.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\pmap_rmt.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\Rpc.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\rpc_msg.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\svc.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\svc_auth.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\types.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\xdr.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\rpcinfo\getopt.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\rpcinfo\rpcinfo.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

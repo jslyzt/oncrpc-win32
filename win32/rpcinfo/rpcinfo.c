@@ -69,7 +69,6 @@
 #ifdef WIN32
 #include <rpc/pmap_pro.h>
 #include <rpc/pmap_cln.h>
-#include "getopt.c"
 #else
 #include <sys/socket.h>
 #include <netdb.h>

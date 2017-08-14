@@ -1,0 +1,5 @@
+/win32/msvc/x64
+/win32/bin
+/win32/msvc/*.suo
+/win32/msvc/*.sdf
+/win32/msvc/*.user

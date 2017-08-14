@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{a2e2dfb5-96bd-4410-9088-eb2fb11b4310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{5050552b-087e-4e51-ba72-6c73a0bb46d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\rpc">
+      <UniqueIdentifier>{70717fc9-04a8-442b-8caa-c21026ce81a4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\nm_rpc_old.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\pmapclnt_old.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\pmapprot_old.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\auth.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\auth_uni.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\bcopy.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\clnt.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\Netdb.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\Pmap_cln.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\Pmap_pro.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\pmap_rmt.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\Rpc.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\rpc_msg.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\svc.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\svc_auth.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\types.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rpc\xdr.h">
+      <Filter>include\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\librpc\all_oncrpc.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\librpc\Auth_non.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Auth_uni.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\authunix.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\bcopy.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Bindresv.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\clnt_gen.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Clnt_per.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\clnt_raw.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\clnt_sim.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Clnt_tcp.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Clnt_udp.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Get_myad.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Getrpcen.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Getrpcpo.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\nt.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Pmap_cln.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\pmap_get.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\pmap_gma.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\pmap_pr.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\pmap_pro.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Pmap_rmt.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\rpc_call.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\rpc_comm.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\rpc_prot.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Svc.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\svc_auth.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Svc_autu.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\svc_raw.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Svc_run.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Svc_simp.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Svc_tcp.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Svc_udp.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Xdr.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Xdr_arra.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\xdr_floa.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\xdr_mem.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Xdr_rec.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Xdr_refe.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\xdr_stdi.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\librpc\Xdr_strarr.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\librpc\oncbcimp.def">
+      <Filter>src</Filter>
+    </None>
+    <None Include="..\librpc\oncrpc.def">
+      <Filter>src</Filter>
+    </None>
+  </ItemGroup>
+</Project>
