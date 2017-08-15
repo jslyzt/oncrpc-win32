@@ -62,8 +62,11 @@
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#ifndef _CLNT_
-#define _CLNT_
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
  * Rpc calls return an enum clnt_stat.  This should be looked at more,
@@ -367,4 +370,6 @@ DllExport char* clnt_sperrno(enum clnt_stat num);	/* string */
 #define UDPMSGSIZE	8800	/* rpc imposed limit on udp msg size */
 #define RPCSMALLMSGSIZE	400	/* a more reasonable packet size */
 
-#endif /*!_CLNT_*/
+#ifdef __cplusplus
+}
+#endif

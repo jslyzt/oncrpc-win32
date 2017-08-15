@@ -55,6 +55,13 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)svc_simple.c 1.18 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -66,7 +73,7 @@ static char sccsid[] = "@(#)svc_simple.c 1.18 87/08/11 Copyr 1984 Sun Micro";
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 
 static struct proglst {
     char* (*p_progname)();
@@ -190,3 +197,6 @@ static void universal(struct svc_req* rqstp, SVCXPRT* transp)
     exit(1);
 }
 
+#ifdef __cplusplus
+}
+#endif

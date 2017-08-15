@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)pmap_prot2.c 1.3 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -66,7 +72,7 @@ static char sccsid[] = "@(#)pmap_prot2.c 1.3 87/08/11 Copyr 1984 Sun Micro";
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 
 /*
  * What is going on with linked lists? (!)
@@ -135,3 +141,7 @@ bool_t xdr_pmaplist(register XDR* xdrs, register struct pmaplist** rp) {
         rp = (freeing) ? next : &((*rp)->pml_next);
     }
 }
+
+#ifdef __cplusplus
+}
+#endif

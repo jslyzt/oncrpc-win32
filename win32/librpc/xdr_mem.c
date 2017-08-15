@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)xdr_mem.c 1.19 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -71,7 +77,7 @@ static char sccsid[] = "@(#)xdr_mem.c 1.19 87/08/11 Copyr 1984 Sun Micro";
  */
 
 
-#include "all_oncrpc.h"
+
 
 static bool_t	xdrmem_getlong();
 static bool_t	xdrmem_putlong();
@@ -165,3 +171,7 @@ static long* xdrmem_inline(register XDR* xdrs, int len) {
     }
     return (buf);
 }
+
+#ifdef __cplusplus
+}
+#endif

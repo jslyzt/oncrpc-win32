@@ -25,6 +25,11 @@
  * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)svc_auth.c	2.1 88/08/07 4.0 RPCSRC; from 1.19 87/08/11 Copyr 1984 Sun Micro";
@@ -65,7 +70,7 @@ static char sccsid[] = "@(#)svc_auth.c	2.1 88/08/07 4.0 RPCSRC; from 1.19 87/08/
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 /*
  * svcauthsw is the bdevsw of server side authentication.
  *
@@ -131,3 +136,7 @@ struct rpc_msg *msg;*/
 {
     return (AUTH_OK);
 }
+
+#ifdef __cplusplus
+}
+#endif

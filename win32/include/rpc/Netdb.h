@@ -59,6 +59,12 @@
 
 /* Really belongs in <netdb.h> */
 
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(_STRUCT_RPCENT)
 struct rpcent {
       char    *r_name;        /* name of server for this rpc program */
@@ -71,3 +77,7 @@ struct rpcent {
 DllExport struct rpcent *getrpcbyname(char* name);
 DllExport struct rpcent *getrpcbynumber(register int number);
 DllExport struct rpcent *getrpcent();
+
+#ifdef __cplusplus
+}
+#endif

@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)svc.c 1.41 87/10/13 Copyr 1984 Sun Micro";
 #endif
@@ -69,7 +75,7 @@ static char sccsid[] = "@(#)svc.c 1.41 87/10/13 Copyr 1984 Sun Micro";
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 
 #ifndef WIN32
 extern int errno;
@@ -491,3 +497,7 @@ call_done:
         } while (stat == XPRT_MOREREQS);
     }
 }
+
+#ifdef __cplusplus
+}
+#endif

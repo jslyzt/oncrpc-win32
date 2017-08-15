@@ -55,6 +55,13 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)xdr.c 1.35 87/08/12";
 #endif
@@ -69,7 +76,7 @@ static char sccsid[] = "@(#)xdr.c 1.35 87/08/12";
  * xdr.
  */
 
-#include "all_oncrpc.h"
+
 
 /*
  * constants specific to the xdr "protocol"
@@ -540,3 +547,7 @@ bool_t xdr_wrapstring(XDR* xdrs, char** cpp) {
     }
     return (FALSE);
 }
+
+#ifdef __cplusplus
+}
+#endif

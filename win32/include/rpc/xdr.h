@@ -63,8 +63,11 @@
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#ifndef __XDR_HEADER__
-#define __XDR_HEADER__
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <rpc/types.h>
 #include <stdio.h>
@@ -305,4 +308,6 @@ DllExport bool_t xdrrec_endofrecord(XDR* xdrs, bool_t sendnow);	/* make end of x
 DllExport bool_t xdrrec_skiprecord(XDR* xdrs);	/* move to beginning of next record */
 DllExport bool_t xdrrec_eof(XDR* xdrs);		/* true if no more input */
 
-#endif /* __XDR_HEADER__ */
+#ifdef __cplusplus
+}
+#endif

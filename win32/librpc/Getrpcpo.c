@@ -27,6 +27,12 @@
  *********************************************************************/
 
 /* @(#)getrpcport.c	2.1 88/07/29 4.0 RPCSRC */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static  char sccsid[] = "@(#)getrpcport.c 1.3 87/08/11 SMI";
 #endif
@@ -63,7 +69,7 @@ static  char sccsid[] = "@(#)getrpcport.c 1.3 87/08/11 SMI";
  * Copyright (c) 1985 by Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 
 u_short getrpcport(char* host, u_long prognum, u_long versnum, u_int proto) {
     struct sockaddr_in addr;
@@ -76,3 +82,7 @@ u_short getrpcport(char* host, u_long prognum, u_long versnum, u_int proto) {
     addr.sin_port =  0;
     return (pmap_getport(&addr, prognum, versnum, proto));
 }
+
+#ifdef __cplusplus
+}
+#endif

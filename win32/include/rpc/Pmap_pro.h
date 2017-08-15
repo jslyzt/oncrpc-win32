@@ -93,6 +93,12 @@
  * The service supports remote procedure calls on udp/ip or tcp/ip socket 111.
  */
 
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define PMAPPORT		((u_short)111)
 #define PMAPPROG		((u_long)100000)
 #define PMAPVERS		((u_long)2)
@@ -120,3 +126,7 @@ struct pmaplist {
 };
 
 DllExport bool_t xdr_pmaplist(register XDR* xdrs, register struct pmaplist** rp);
+
+#ifdef __cplusplus
+}
+#endif

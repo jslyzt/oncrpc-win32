@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)svc_auth_unix.c 1.28 88/02/08 Copyr 1984 Sun Micro";
 #endif
@@ -70,7 +76,7 @@ static char sccsid[] = "@(#)svc_auth_unix.c 1.28 88/02/08 Copyr 1984 Sun Micro";
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 /*
  * Unix longhand authenticator
  */
@@ -157,3 +163,7 @@ done:
 enum auth_stat _svcauth_short(struct svc_req* rqst, struct rpc_msg* msg) {
     return (AUTH_REJECTEDCRED);
 }
+
+#ifdef __cplusplus
+}
+#endif

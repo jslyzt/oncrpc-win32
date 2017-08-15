@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)clnt_tcp.c 1.37 87/10/05 Copyr 1984 Sun Micro";
 #endif
@@ -78,7 +84,7 @@ static char sccsid[] = "@(#)clnt_tcp.c 1.37 87/10/05 Copyr 1984 Sun Micro";
  * Now go hang yourself.
  */
 
-#include "all_oncrpc.h"
+
 
 #define MCALL_MSG_SIZE 24
 
@@ -507,3 +513,7 @@ static int writetcp(struct ct_data* ct, caddr_t buf, int len) {
     }
     return (len);
 }
+
+#ifdef __cplusplus
+}
+#endif

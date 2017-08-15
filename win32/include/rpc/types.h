@@ -60,8 +60,11 @@
 /*
  * Rpc additions to <sys/types.h>
  */
-#ifndef __TYPES_RPC_HEADER__
-#define __TYPES_RPC_HEADER__
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define	bool_t	int
 #define	enum_t	int
@@ -103,4 +106,6 @@ typedef unsigned short u_short;
 
 #include <stdint.h>
 
-#endif /* ndef __TYPES_RPC_HEADER__ */
+#ifdef __cplusplus
+}
+#endif

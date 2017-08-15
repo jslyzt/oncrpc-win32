@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)xdr_rec.c 1.21 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -76,7 +82,7 @@ static char sccsid[] = "@(#)xdr_rec.c 1.21 87/08/11 Copyr 1984 Sun Micro";
  * The other 31 bits encode the byte length of the fragment.
  */
 
-#include "all_oncrpc.h"
+
 
 #ifndef WIN32
 extern long	lseek();
@@ -519,3 +525,7 @@ bool_t xdrrec_endofrecord(XDR* xdrs, bool_t sendnow) {
     rstrm->out_finger += sizeof(u_long);
     return (TRUE);
 }
+
+#ifdef __cplusplus
+}
+#endif

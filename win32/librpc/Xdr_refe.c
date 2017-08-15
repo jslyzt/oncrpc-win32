@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)xdr_reference.c 1.11 87/08/11 SMI";
 #endif
@@ -68,7 +74,7 @@ static char sccsid[] = "@(#)xdr_reference.c 1.11 87/08/11 SMI";
  * "pointers".  See xdr.h for more info on the interface to xdr.
  */
 
-#include "all_oncrpc.h"
+
 
 #define LASTUNSIGNED	((u_int)0-1)
 
@@ -144,3 +150,7 @@ bool_t xdr_pointer(register XDR* xdrs, char** objpp, u_int obj_size, xdrproc_t x
     }
     return (xdr_reference(xdrs, objpp, obj_size, xdr_obj));
 }
+
+#ifdef __cplusplus
+}
+#endif

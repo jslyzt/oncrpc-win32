@@ -55,7 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+
 #include "all_oncrpc.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * This file should only contain common data (global data) that is exported
  * by public interfaces 
@@ -78,3 +83,7 @@ int svc_fds;
 __declspec(dllexport)
 #endif
 struct rpc_createerr rpc_createerr;
+
+#ifdef __cplusplus
+}
+#endif

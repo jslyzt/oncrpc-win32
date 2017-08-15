@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)get_myaddress.c 1.4 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -64,7 +70,7 @@ static char sccsid[] = "@(#)get_myaddress.c 1.4 87/08/11 Copyr 1984 Sun Micro";
  * Get client's IP address via ioctl.  This avoids using the yellowpages.
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
-#include "all_oncrpc.h"
+
 
 #ifdef WIN32
 #define MAX_NAME_LEN	255
@@ -128,3 +134,7 @@ void get_myaddress(struct sockaddr_in* addr) {
     (void) close(s);
 #endif
 }
+
+#ifdef __cplusplus
+}
+#endif

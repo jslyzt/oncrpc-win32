@@ -55,6 +55,13 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)rpc_prot.c 1.36 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -72,7 +79,7 @@ static char sccsid[] = "@(#)rpc_prot.c 1.36 87/08/11 Copyr 1984 Sun Micro";
  * routines are also in this program.
  */
 
-#include "all_oncrpc.h"
+
 
 /* * * * * * * * * * * * * * XDR Authentication * * * * * * * * * * * */
 /*
@@ -250,3 +257,7 @@ void _seterr_reply(register struct rpc_msg* msg, register struct rpc_err* error)
             break;
     }
 }
+
+#ifdef __cplusplus
+}
+#endif

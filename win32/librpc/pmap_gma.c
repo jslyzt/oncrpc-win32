@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)pmap_getmaps.c 1.10 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -67,7 +73,7 @@ static char sccsid[] = "@(#)pmap_getmaps.c 1.10 87/08/11 Copyr 1984 Sun Micro";
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 
 #define NAMELEN 255
 #define MAX_BROADCAST_SIZE 1400
@@ -104,3 +110,7 @@ struct pmaplist* pmap_getmaps(struct sockaddr_in* address) {
     address->sin_port = 0;
     return (head);
 }
+
+#ifdef __cplusplus
+}
+#endif

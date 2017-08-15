@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)clnt_generic.c 1.4 87/08/11 (C) 1987 SMI";
 #endif
@@ -62,7 +68,7 @@ static char sccsid[] = "@(#)clnt_generic.c 1.4 87/08/11 (C) 1987 SMI";
  * Copyright (C) 1987, Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 
 /*
  * Generic client creation: takes (hostname, program-number, protocol) and
@@ -141,3 +147,7 @@ CLIENT* clnt_create(char* hostname, u_long prog, u_long vers, char* proto)
     }
     return (client);
 }
+
+#ifdef __cplusplus
+}
+#endif

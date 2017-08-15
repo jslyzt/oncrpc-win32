@@ -55,6 +55,10 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)auth_none.c 1.19 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -144,3 +148,7 @@ static bool_t authnone_refresh() {
 
 static void authnone_destroy() {
 }
+
+#ifdef __cplusplus
+}
+#endif

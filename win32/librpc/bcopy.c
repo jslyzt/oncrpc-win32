@@ -25,7 +25,11 @@
  * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
+#include "all_oncrpc.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 /*
  *  bcopy.c --
  *      Implements bcopy(2) and bzero(2) byte operations.
@@ -34,7 +38,7 @@
  *      See-Mong Tan, 6/26/88
  */
 
-#include "all_oncrpc.h"
+
 
 /*
  *  bcopy(char *s1, char *s2, int len) --
@@ -67,3 +71,6 @@ int bcmp(char* s1, char* s2, int len) {
     return 0;
 }
 
+#ifdef __cplusplus
+}
+#endif

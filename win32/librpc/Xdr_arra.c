@@ -55,6 +55,13 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)xdr_array.c 1.10 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -68,7 +75,7 @@ static char sccsid[] = "@(#)xdr_array.c 1.10 87/08/11 Copyr 1984 Sun Micro";
  * arrays.  See xdr.h for more info on the interface to xdr.
  */
 
-#include "all_oncrpc.h"
+
 
 #define LASTUNSIGNED	((u_int)0-1)
 
@@ -164,3 +171,6 @@ bool_t xdr_vector(register XDR* xdrs, register char* basep, register u_int nelem
     return (TRUE);
 }
 
+#ifdef __cplusplus
+}
+#endif

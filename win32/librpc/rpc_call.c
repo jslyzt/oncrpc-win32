@@ -54,6 +54,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)rpc_callmsg.c 1.4 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -65,7 +71,7 @@ static char sccsid[] = "@(#)rpc_callmsg.c 1.4 87/08/11 Copyr 1984 Sun Micro";
  *
  */
 
-#include "all_oncrpc.h"
+
 
 /*
  * XDR a call message
@@ -209,3 +215,6 @@ bool_t xdr_callmsg(register XDR* xdrs, register struct rpc_msg* cmsg) {
     return (FALSE);
 }
 
+#ifdef __cplusplus
+}
+#endif

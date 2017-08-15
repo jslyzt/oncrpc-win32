@@ -62,13 +62,19 @@
  *
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
-#ifndef __RPC_HEADER__
-#define __RPC_HEADER__
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef WIN32
 //#define FD_SETSIZE	128
-#define DllExport	__declspec( dllexport )
-#define DllImport	__declspec( dllimport )
+//#define DllExport	__declspec( dllexport )
+//#define DllImport	__declspec( dllimport )
+#define DllExport	extern
+#define DllImport	extern
+#define  hyper      __int64
 
 #include <stdlib.h>
 #include <windows.h>
@@ -128,5 +134,6 @@ DllExport void nt_rpc_report(LPTSTR lpszMsg);
 DllExport bool_t xdr_opaque_auth(register XDR* xdrs, register struct opaque_auth* ap);
 #endif // WIN32
 
-
-#endif /* ndef __RPC_HEADER__ */
+#ifdef __cplusplus
+}
+#endif

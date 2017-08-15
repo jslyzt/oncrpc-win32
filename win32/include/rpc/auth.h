@@ -65,9 +65,11 @@
  * is required to pass a AUTH * to routines that create rpc
  * "sessions".
  */
+#pragma once
 
-#ifndef __AUTH_HEADER__
-#define __AUTH_HEADER__
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MAX_AUTH_BYTES	400
 #define MAXNETNAMELEN	255	/* maximum length of network user's name */
@@ -214,5 +216,6 @@ DllExport AUTH* authdes_create();
 #define	AUTH_SHORT	2		/* short hand unix style */
 #define AUTH_DES	3		/* des style (encrypted timestamps) */
 
-#endif	/* __AUTH_HEADER__ */
-
+#ifdef __cplusplus
+}
+#endif

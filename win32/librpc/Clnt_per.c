@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)clnt_perror.c 1.15 87/10/07 Copyr 1984 Sun Micro";
 #endif
@@ -65,7 +71,7 @@ static char sccsid[] = "@(#)clnt_perror.c 1.15 87/10/07 Copyr 1984 Sun Micro";
  * Copyright (C) 1984, Sun Microsystems, Inc.
  *
  */
-#include "all_oncrpc.h"
+
 
 #ifndef WIN32
 extern char* sys_errlist[];
@@ -371,3 +377,7 @@ static char* auth_errmsg(enum auth_stat stat) {
     }
     return (NULL);
 }
+
+#ifdef __cplusplus
+}
+#endif

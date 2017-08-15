@@ -70,8 +70,11 @@
  * for the credentials.
  */
 
-#ifndef __AUTH_UNIX_HEADER__
-#define __AUTH_UNIX_HEADER__
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* The machine name is part of a credential; it may not exceed 255 bytes */
 #define MAX_MACHINE_NAME 255
@@ -102,5 +105,7 @@ struct short_hand_verf {
     struct opaque_auth new_cred;
 };
 
-#endif	/* __AUTH_UNIX_HEADER__ */
+#ifdef __cplusplus
+}
+#endif
 

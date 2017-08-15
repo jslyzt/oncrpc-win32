@@ -25,6 +25,11 @@
  * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 static  char sccsid[] = "@(#)bindresvport.c	2.2 88/07/29 4.0 RPCSRC 1.8 88/02/08 SMI";
 /*
@@ -60,7 +65,7 @@ static  char sccsid[] = "@(#)bindresvport.c	2.2 88/07/29 4.0 RPCSRC 1.8 88/02/08
  * Copyright (c) 1987 by Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 
 /*
  * Bind a socket to a privileged IP port
@@ -117,3 +122,7 @@ int bindresvport(int sd, struct sockaddr_in* sin) {
     }
     return (res);
 }
+
+#ifdef __cplusplus
+}
+#endif

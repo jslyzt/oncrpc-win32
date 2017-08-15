@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)pmap_prot.c 1.17 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -66,7 +72,7 @@ static char sccsid[] = "@(#)pmap_prot.c 1.17 87/08/11 Copyr 1984 Sun Micro";
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 
 bool_t xdr_pmap(XDR* xdrs, struct pmap* regs) {
     if (xdr_u_long(xdrs, &regs->pm_prog) &&
@@ -75,3 +81,7 @@ bool_t xdr_pmap(XDR* xdrs, struct pmap* regs) {
         return (xdr_u_long(xdrs, &regs->pm_port));
     return (FALSE);
 }
+
+#ifdef __cplusplus
+}
+#endif

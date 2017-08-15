@@ -27,6 +27,12 @@
  *********************************************************************/
 
 /* @(#)svc_run.c	2.1 88/07/29 4.0 RPCSRC */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)svc_run.c 1.1 87/10/13 Copyr 1984 Sun Micro";
 #endif
@@ -65,7 +71,7 @@ static char sccsid[] = "@(#)svc_run.c 1.1 87/10/13 Copyr 1984 Sun Micro";
  * Wait for input, call server program.
  */
 
-#include "all_oncrpc.h"
+
 
 void svc_run() {
 #ifdef FD_SETSIZE
@@ -106,3 +112,7 @@ void svc_run() {
         }
     }
 }
+
+#ifdef __cplusplus
+}
+#endif

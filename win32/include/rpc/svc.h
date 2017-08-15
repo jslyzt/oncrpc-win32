@@ -62,8 +62,11 @@
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#ifndef __SVC_HEADER__
-#define __SVC_HEADER__
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
  * This interface must manage two items concerning remote procedure calling:
@@ -316,5 +319,6 @@ DllExport SVCXPRT* svcudp_bufcreate();
 DllExport SVCXPRT* svctcp_create();
 
 
-
-#endif /* __SVC_HEADER__ */
+#ifdef __cplusplus
+}
+#endif

@@ -64,8 +64,11 @@
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#ifndef __RPC_MSG_HEADER__
-#define __RPC_MSG_HEADER__
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define RPC_MSG_VERSION		((u_long) 2)
 #define RPC_SERVICE_PORT	((u_short) 2048)
@@ -217,5 +220,7 @@ DllExport bool_t	xdr_replymsg(register XDR* xdrs, register struct rpc_msg* rmsg)
  */
 extern void	_seterr_reply(register struct rpc_msg* msg, register struct rpc_err* error);
 
-#endif	/*  __RPC_MSG_HEADER__ */
 
+#ifdef __cplusplus
+}
+#endif

@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)auth_unix.c 1.19 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -71,7 +77,7 @@ static char sccsid[] = "@(#)auth_unix.c 1.19 87/08/11 Copyr 1984 Sun Micro";
  *
  */
 
-#include "all_oncrpc.h"
+
 
 /*
  * Unix authenticator operations vector
@@ -323,3 +329,7 @@ static void marshal_new_auth(register AUTH* auth) {
     }
     XDR_DESTROY(xdrs);
 }
+
+#ifdef __cplusplus
+}
+#endif

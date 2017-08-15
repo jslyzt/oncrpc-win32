@@ -21,8 +21,13 @@
  * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
-
 #include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 
 WSADATA WSAData;
 
@@ -76,3 +81,6 @@ VOID nt_rpc_report(LPTSTR lpszMsg) {
     }
 }
 
+#ifdef __cplusplus
+}
+#endif

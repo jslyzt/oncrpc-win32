@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)clnt_raw.c 1.22 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -70,7 +76,7 @@ static char sccsid[] = "@(#)clnt_raw.c 1.22 87/08/11 Copyr 1984 Sun Micro";
  * any interference from the kernal.
  */
 
-#include "all_oncrpc.h"
+
 
 #define MCALL_MSG_SIZE 24
 
@@ -228,15 +234,16 @@ static bool_t clntraw_freeres(CLIENT* cl, xdrproc_t xdr_res, caddr_t res_ptr) {
     return ((*xdr_res)(xdrs, res_ptr));
 }
 
-static void
-clntraw_abort() {
+static void clntraw_abort() {
 }
 
-static bool_t
-clntraw_control() {
+static bool_t clntraw_control() {
     return (FALSE);
 }
 
-static void
-clntraw_destroy() {
+static void clntraw_destroy() {
 }
+
+#ifdef __cplusplus
+}
+#endif

@@ -23,6 +23,11 @@
  * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 DllExport void bcopy(char *,char*,int);
 //void bcopy_nf(char *,char *,int);
@@ -30,3 +35,7 @@ DllExport void bcopy(char *,char*,int);
 //void bcopy_ff(char *,char *,int);
 DllExport void bzero(char*,int);
 DllExport int bcmp(char *s1, char *s2, int len);
+
+#ifdef __cplusplus
+}
+#endif

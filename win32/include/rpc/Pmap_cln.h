@@ -85,6 +85,12 @@
  *		address if the responder to the broadcast.
  */
 
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 DllExport bool_t    pmap_set(u_long program, u_long version, int protocol, u_short port);
 DllExport bool_t    pmap_unset(u_long program, u_long version);
 DllExport struct pmaplist   *pmap_getmaps(struct sockaddr_in* address);
@@ -95,3 +101,7 @@ typedef bool_t(*resultproc_t)();
 DllExport enum clnt_stat    clnt_broadcast(u_long prog, u_long vers, u_long proc, xdrproc_t xargs,
                                 caddr_t argsp, xdrproc_t xresults, caddr_t resultsp, resultproc_t eachresult);
 DllExport u_short   pmap_getport(struct sockaddr_in* address, u_long program, u_long version, u_int protocol);
+
+#ifdef __cplusplus
+}
+#endif

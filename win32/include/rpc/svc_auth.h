@@ -63,8 +63,17 @@
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
  * Server side authenticator
  */
 extern enum auth_stat _authenticate(register struct svc_req* rqst, struct rpc_msg* msg);
+
+#ifdef __cplusplus
+}
+#endif

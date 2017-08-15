@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)svc_raw.c 1.15 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -68,7 +74,7 @@ static char sccsid[] = "@(#)svc_raw.c 1.15 87/08/11 Copyr 1984 Sun Micro";
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 
 /*
  * This is the "network" that we will be moving data over
@@ -161,3 +167,7 @@ static bool_t svcraw_freeargs(SVCXPRT* xprt, xdrproc_t xdr_args, caddr_t args_pt
 
 static void svcraw_destroy() {
 }
+
+#ifdef __cplusplus
+}
+#endif

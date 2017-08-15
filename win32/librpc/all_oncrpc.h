@@ -15,15 +15,20 @@
  * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  **********************************************************************/
-#ifndef __all_oncrpc_includes__
-#define __all_oncrpc_includes__
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef WIN32
 #ifndef DllExport
-#define DllExport	__declspec( dllexport )
+//#define DllExport	__declspec( dllexport )
+#define DllExport extern
 #endif
 #ifndef DllImport
-#define DllImport   __declspec( dllimport )
+//#define DllImport   __declspec( dllimport )
+#define DllImport extern
 #endif
 
 #if defined _W95 || defined _NT || defined _WINNT
@@ -83,4 +88,6 @@ void bcopy(char *s1,char *s2, int len);
 void bzero(char *s, int len);
 int bcmp(char *s1, char *s2, int len);
 
-#endif  /*__all_oncrpc_includes__*/
+#ifdef __cplusplus
+}
+#endif

@@ -63,6 +63,12 @@
  * Copyright (C) 1986, Sun Microsystems, Inc.
  */
 
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct rmtcallargs {
     u_long prog, vers, proc, arglen;
     caddr_t args_ptr;
@@ -79,3 +85,7 @@ struct rmtcallres {
 };
 
 bool_t xdr_rmtcallres(register XDR* xdrs, register struct rmtcallres* crp);
+
+#ifdef __cplusplus
+}
+#endif

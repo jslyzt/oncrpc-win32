@@ -25,6 +25,9 @@
  */
 #include "all_oncrpc.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 /*
  * XDR an array of string elements.
  * addrp is a pointer to the string pointer array, *sizep is the number of
@@ -87,3 +90,6 @@ bool_t xdr_strarray(register XDR* xdrs, register char** *addrp, u_int* sizep, u_
     return (stat);
 }
 
+#ifdef __cplusplus
+}
+#endif

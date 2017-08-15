@@ -55,6 +55,12 @@
  * 2550 Garcia Avenue
  * Mountain View, California  94043
  */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static char sccsid[] = "@(#)authunix_prot.c 1.15 87/08/11 Copyr 1984 Sun Micro";
 #endif
@@ -66,7 +72,7 @@ static char sccsid[] = "@(#)authunix_prot.c 1.15 87/08/11 Copyr 1984 Sun Micro";
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 
 /*
  * XDR for unix authentication parameters.
@@ -83,3 +89,6 @@ bool_t xdr_authunix_parms(register XDR* xdrs, register struct authunix_parms* p)
     return (FALSE);
 }
 
+#ifdef __cplusplus
+}
+#endif

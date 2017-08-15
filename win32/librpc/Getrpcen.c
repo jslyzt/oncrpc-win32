@@ -27,6 +27,12 @@
  *********************************************************************/
 
 /* @(#)getrpcent.c	2.2 88/07/29 4.0 RPCSRC */
+#include "all_oncrpc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if !defined(lint) && defined(SCCSIDS)
 static  char sccsid[] = "@(#)getrpcent.c 1.9 87/08/11  Copyr 1984 Sun Micro";
 #endif
@@ -64,7 +70,7 @@ static  char sccsid[] = "@(#)getrpcent.c 1.9 87/08/11  Copyr 1984 Sun Micro";
  * Copyright (c) 1985 by Sun Microsystems, Inc.
  */
 
-#include "all_oncrpc.h"
+
 
 /*
  * Internet version.
@@ -246,3 +252,7 @@ struct rpcent* getrpcbyname(char* name) {
     endrpcent();
     return (NULL);
 }
+
+#ifdef __cplusplus
+}
+#endif
