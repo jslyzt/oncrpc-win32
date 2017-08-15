@@ -6,23 +6,23 @@
  *
  * SUN's ONC RPC for Windows NT and Windows 95. Ammended port from
  * Martin F.Gergeleit's distribution. This version has been modified
- * and cleaned, such as to be compatible with Windows NT and Windows 95. 
+ * and cleaned, such as to be compatible with Windows NT and Windows 95.
  * Compiler: MSVC++ version 4.2 and 5.0.
  *
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  **********************************************************************/
 /*********************************************************************
  * RPC for the Windows NT Operating System
  * 1993 by Martin F. Gergeleit
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
  *
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
 
@@ -38,23 +38,23 @@ static char sccsid[] = "@(#)svc_run.c 1.1 87/10/13 Copyr 1984 Sun Micro";
  * may copy or modify Sun RPC without charge, but are not authorized
  * to license or distribute it to anyone else except as part of a product or
  * program developed by the user.
- * 
+ *
  * SUN RPC IS PROVIDED AS IS WITH NO WARRANTIES OF ANY KIND INCLUDING THE
  * WARRANTIES OF DESIGN, MERCHANTIBILITY AND FITNESS FOR A PARTICULAR
  * PURPOSE, OR ARISING FROM A COURSE OF DEALING, USAGE OR TRADE PRACTICE.
- * 
+ *
  * Sun RPC is provided with no support and without any obligation on the
  * part of Sun Microsystems, Inc. to assist in its use, correction,
  * modification or enhancement.
- * 
+ *
  * SUN MICROSYSTEMS, INC. SHALL HAVE NO LIABILITY WITH RESPECT TO THE
  * INFRINGEMENT OF COPYRIGHTS, TRADE SECRETS OR ANY PATENTS BY SUN RPC
  * OR ANY PART THEREOF.
- * 
+ *
  * In no event will Sun Microsystems, Inc. be liable for any lost revenue
  * or profits or other special, indirect and consequential damages, even if
  * Sun has been advised of the possibility of such damages.
- * 
+ *
  * Sun Microsystems, Inc.
  * 2550 Garcia Avenue
  * Mountain View, California  94043
@@ -67,44 +67,42 @@ static char sccsid[] = "@(#)svc_run.c 1.1 87/10/13 Copyr 1984 Sun Micro";
 
 #include "all_oncrpc.h"
 
-void
-svc_run()
-{
+void svc_run() {
 #ifdef FD_SETSIZE
-	fd_set readfds;
+    fd_set readfds;
 #else
-      int readfds;
+    int readfds;
 #endif /* def FD_SETSIZE */
 #ifndef WIN32
-	extern int errno;
+    extern int errno;
 #endif
 
-	for (;;) {
+    for (;;) {
 #ifdef FD_SETSIZE
-		readfds = svc_fdset;
+        readfds = svc_fdset;
 #else
-		readfds = svc_fds;
+        readfds = svc_fds;
 #endif /* def FD_SETSIZE */
 #ifdef WIN32
-		switch (select(0 /* unused in winsock */, &readfds, NULL, NULL,
+        switch (select(0 /* unused in winsock */, &readfds, NULL, NULL,
 #else
-		switch (select(_rpc_dtablesize(), &readfds, (int *)0, (int *)0,
+        switch (select(_rpc_dtablesize(), &readfds, (int*)0, (int*)0,
 #endif
-			       (struct timeval *)0)) {
-		case -1:
+                       (struct timeval*)0)) {
+            case -1:
 #ifdef WIN32
-			if (WSAerrno == EINTR) {
+                if (WSAerrno == EINTR) {
 #else
-			if (errno == EINTR) {
+                if (errno == EINTR) {
 #endif
-				continue;
-			}
-			perror("svc_run: - select failed");
-			return;
-		case 0:
-			continue;
-		default:
-			svc_getreqset(&readfds);
-		}
-	}
+                    continue;
+                }
+                perror("svc_run: - select failed");
+                return;
+            case 0:
+                continue;
+            default:
+                svc_getreqset(&readfds);
+        }
+    }
 }

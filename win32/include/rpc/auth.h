@@ -6,23 +6,23 @@
  *
  * SUN's ONC RPC for Windows NT and Windows 95. Ammended port from
  * Martin F.Gergeleit's distribution. This version has been modified
- * and cleaned, such as to be compatible with Windows NT and Windows 95. 
+ * and cleaned, such as to be compatible with Windows NT and Windows 95.
  * Compiler: MSVC++ version 4.2 and 5.0.
  *
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  **********************************************************************/
 /*********************************************************************
  * RPC for the Windows NT Operating System
  * 1993 by Martin F. Gergeleit
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
  *
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
 
@@ -34,23 +34,23 @@
  * may copy or modify Sun RPC without charge, but are not authorized
  * to license or distribute it to anyone else except as part of a product or
  * program developed by the user.
- * 
+ *
  * SUN RPC IS PROVIDED AS IS WITH NO WARRANTIES OF ANY KIND INCLUDING THE
  * WARRANTIES OF DESIGN, MERCHANTIBILITY AND FITNESS FOR A PARTICULAR
  * PURPOSE, OR ARISING FROM A COURSE OF DEALING, USAGE OR TRADE PRACTICE.
- * 
+ *
  * Sun RPC is provided with no support and without any obligation on the
  * part of Sun Microsystems, Inc. to assist in its use, correction,
  * modification or enhancement.
- * 
+ *
  * SUN MICROSYSTEMS, INC. SHALL HAVE NO LIABILITY WITH RESPECT TO THE
  * INFRINGEMENT OF COPYRIGHTS, TRADE SECRETS OR ANY PATENTS BY SUN RPC
  * OR ANY PART THEREOF.
- * 
+ *
  * In no event will Sun Microsystems, Inc. be liable for any lost revenue
  * or profits or other special, indirect and consequential damages, even if
  * Sun has been advised of the possibility of such damages.
- * 
+ *
  * Sun Microsystems, Inc.
  * 2550 Garcia Avenue
  * Mountain View, California  94043
@@ -76,39 +76,39 @@
  * Status returned from authentication check
  */
 enum auth_stat {
-	AUTH_OK=0,
-	/*
-	 * failed at remote end
-	 */
-	AUTH_BADCRED=1,			/* bogus credentials (seal broken) */
-	AUTH_REJECTEDCRED=2,		/* client should begin new session */
-	AUTH_BADVERF=3,			/* bogus verifier (seal broken) */
-	AUTH_REJECTEDVERF=4,		/* verifier expired or was replayed */
-	AUTH_TOOWEAK=5,			/* rejected due to security reasons */
-	/*
-	 * failed locally
-	*/
-	AUTH_INVALIDRESP=6,		/* bogus response verifier */
-	AUTH_FAILED=7			/* some unknown reason */
+    AUTH_OK = 0,
+    /*
+     * failed at remote end
+     */
+    AUTH_BADCRED = 1,			/* bogus credentials (seal broken) */
+    AUTH_REJECTEDCRED = 2,		/* client should begin new session */
+    AUTH_BADVERF = 3,			/* bogus verifier (seal broken) */
+    AUTH_REJECTEDVERF = 4,		/* verifier expired or was replayed */
+    AUTH_TOOWEAK = 5,			/* rejected due to security reasons */
+    /*
+     * failed locally
+    */
+    AUTH_INVALIDRESP = 6,		/* bogus response verifier */
+    AUTH_FAILED = 7			/* some unknown reason */
 };
 
 #if (mc68000 || sparc || vax || i386)
 typedef u_long u_int32;	/* 32-bit unsigned integers */
 
 union des_block {
-	struct {
-		u_int32 high;
-		u_int32 low;
-	} key;
-	char c[8];
+    struct {
+        u_int32 high;
+        u_int32 low;
+    } key;
+    char c[8];
 };
 #else
 union des_block {
-        struct {
-                u_long high;
-                u_long low;
-        } key;
-        char c[8];
+    struct {
+        u_long high;
+        u_long low;
+    } key;
+    char c[8];
 };
 #endif
 typedef union des_block des_block;
@@ -118,9 +118,9 @@ DllExport bool_t xdr_des_block();
  * Authentication info.  Opaque to client.
  */
 struct opaque_auth {
-	enum_t	oa_flavor;		/* flavor of auth */
-	caddr_t	oa_base;		/* address of more auth stuff */
-	u_int	oa_length;		/* not to exceed MAX_AUTH_BYTES */
+    enum_t	oa_flavor;		/* flavor of auth */
+    caddr_t	oa_base;		/* address of more auth stuff */
+    u_int	oa_length;		/* not to exceed MAX_AUTH_BYTES */
 };
 
 
@@ -128,17 +128,17 @@ struct opaque_auth {
  * Auth handle, interface to client side authenticators.
  */
 typedef struct {
-	struct	opaque_auth	ah_cred;
-	struct	opaque_auth	ah_verf;
-	union	des_block	ah_key;
-	struct auth_ops {
-		void	(*ah_nextverf)();
-		int	(*ah_marshal)();	/* nextverf & serialize */
-		int	(*ah_validate)();	/* validate varifier */
-		int	(*ah_refresh)();	/* refresh credentials */
-		void	(*ah_destroy)();	/* destroy this structure */
-	} *ah_ops;
-	caddr_t ah_private;
+    struct	opaque_auth	ah_cred;
+    struct	opaque_auth	ah_verf;
+    union	des_block	ah_key;
+    struct auth_ops {
+        void	(*ah_nextverf)();
+        int	(*ah_marshal)();	/* nextverf & serialize */
+        int	(*ah_validate)();	/* validate varifier */
+        int	(*ah_refresh)();	/* refresh credentials */
+        void	(*ah_destroy)();	/* destroy this structure */
+    }* ah_ops;
+    caddr_t ah_private;
 } AUTH;
 
 
@@ -203,10 +203,10 @@ DllExport struct opaque_auth _null_auth;
  *	int len;
  *	int *aup_gids;
  */
-DllExport AUTH *authunix_create();
-DllExport AUTH *authunix_create_default();	/* takes no parameters */
-DllExport AUTH *authnone_create();		/* takes no parameters */
-DllExport AUTH *authdes_create();
+DllExport AUTH* authunix_create(char* machname, int uid, int gid, register int len, int* aup_gids);
+DllExport AUTH* authunix_create_default();	/* takes no parameters */
+DllExport AUTH* authnone_create();		/* takes no parameters */
+DllExport AUTH* authdes_create();
 
 #define AUTH_NONE	0		/* no authentication */
 #define	AUTH_NULL	0		/* backward compatibility */

@@ -6,23 +6,23 @@
  *
  * SUN's ONC RPC for Windows NT and Windows 95. Ammended port from
  * Martin F.Gergeleit's distribution. This version has been modified
- * and cleaned, such as to be compatible with Windows NT and Windows 95. 
+ * and cleaned, such as to be compatible with Windows NT and Windows 95.
  * Compiler: MSVC++ version 4.2 and 5.0.
  *
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  **********************************************************************/
 /*********************************************************************
  * RPC for the Windows NT Operating System
  * 1993 by Martin F. Gergeleit
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
  *
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
 
@@ -36,11 +36,11 @@ static char sccsid[] = "@(#)svc_auth.c	2.1 88/08/07 4.0 RPCSRC; from 1.19 87/08/
  * may copy or modify Sun RPC without charge, but are not authorized
  * to license or distribute it to anyone else except as part of a product or
  * program developed by the user.
- * 
+ *
  * SUN RPC IS PROVIDED AS IS WITH NO WARRANTIES OF ANY KIND INCLUDING THE
  * WARRANTIES OF DESIGN, MERCHANTIBILITY AND FITNESS FOR A PARTICULAR
  * PURPOSE, OR ARISING FROM A COURSE OF DEALING, USAGE OR TRADE PRACTICE.
- * 
+ *
  * Sun RPC is provided with no support and without any obligation on the
  * part of Sun Microsystems, Inc. to assist in its use, correction,
  * modification or enhancement.
@@ -67,16 +67,16 @@ static char sccsid[] = "@(#)svc_auth.c	2.1 88/08/07 4.0 RPCSRC; from 1.19 87/08/
 
 #include "all_oncrpc.h"
 /*
- * svcauthsw is the bdevsw of server side authentication. 
- * 
+ * svcauthsw is the bdevsw of server side authentication.
+ *
  * Server side authenticators are called from authenticate by
  * using the client auth struct flavor field to index into svcauthsw.
- * The server auth flavors must implement a routine that looks  
- * like: 
- * 
+ * The server auth flavors must implement a routine that looks
+ * like:
+ *
  *	enum auth_stat
  *	flavorx_auth(rqst, msg)
- *		register struct svc_req *rqst; 
+ *		register struct svc_req *rqst;
  *		register struct rpc_msg *msg;
  *
  */
@@ -86,11 +86,11 @@ enum auth_stat _svcauth_unix();		/* unix style (uid, gids) */
 enum auth_stat _svcauth_short();	/* short hand unix style */
 
 static struct {
-	enum auth_stat (*authenticator)();
+    enum auth_stat(*authenticator)();
 } svcauthsw[] = {
-	_svcauth_null,			/* AUTH_NULL */
-	_svcauth_unix,			/* AUTH_UNIX */
-	_svcauth_short,			/* AUTH_SHORT */
+    _svcauth_null,			/* AUTH_NULL */
+    _svcauth_unix,			/* AUTH_UNIX */
+    _svcauth_short,			/* AUTH_SHORT */
 };
 #define	AUTH_MAX	2		/* HIGHEST AUTH NUMBER */
 
@@ -113,29 +113,21 @@ static struct {
  * There is an assumption that any flavour less than AUTH_NULL is
  * invalid.
  */
-enum auth_stat
-_authenticate(rqst, msg)
-	register struct svc_req *rqst;
-	struct rpc_msg *msg;
-{
-	register int cred_flavor;
-
-	rqst->rq_cred = msg->rm_call.cb_cred;
-	rqst->rq_xprt->xp_verf.oa_flavor = _null_auth.oa_flavor;
-	rqst->rq_xprt->xp_verf.oa_length = 0;
-	cred_flavor = rqst->rq_cred.oa_flavor;
-	if ((cred_flavor <= AUTH_MAX) && (cred_flavor >= AUTH_NULL)) {
-		return ((*(svcauthsw[cred_flavor].authenticator))(rqst, msg));
-	}
-
-	return (AUTH_REJECTEDCRED);
+enum auth_stat _authenticate(register struct svc_req* rqst, struct rpc_msg* msg) {
+    register int cred_flavor;
+    rqst->rq_cred = msg->rm_call.cb_cred;
+    rqst->rq_xprt->xp_verf.oa_flavor = _null_auth.oa_flavor;
+    rqst->rq_xprt->xp_verf.oa_length = 0;
+    cred_flavor = rqst->rq_cred.oa_flavor;
+    if ((cred_flavor <= AUTH_MAX) && (cred_flavor >= AUTH_NULL)) {
+        return ((*(svcauthsw[cred_flavor].authenticator))(rqst, msg));
+    }
+    return (AUTH_REJECTEDCRED);
 }
 
-enum auth_stat
-_svcauth_null(/*rqst, msg*/)
-	/*struct svc_req *rqst;
-	struct rpc_msg *msg;*/
+enum auth_stat _svcauth_null(/*rqst, msg*/)
+/*struct svc_req *rqst;
+struct rpc_msg *msg;*/
 {
-
-	return (AUTH_OK);
+    return (AUTH_OK);
 }

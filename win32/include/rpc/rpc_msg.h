@@ -6,23 +6,23 @@
  *
  * SUN's ONC RPC for Windows NT and Windows 95. Ammended port from
  * Martin F.Gergeleit's distribution. This version has been modified
- * and cleaned, such as to be compatible with Windows NT and Windows 95. 
+ * and cleaned, such as to be compatible with Windows NT and Windows 95.
  * Compiler: MSVC++ version 4.2 and 5.0.
  *
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  **********************************************************************/
 /*********************************************************************
  * RPC for the Windows NT Operating System
  * 1993 by Martin F. Gergeleit
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
  *
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
 
@@ -34,23 +34,23 @@
  * may copy or modify Sun RPC without charge, but are not authorized
  * to license or distribute it to anyone else except as part of a product or
  * program developed by the user.
- * 
+ *
  * SUN RPC IS PROVIDED AS IS WITH NO WARRANTIES OF ANY KIND INCLUDING THE
  * WARRANTIES OF DESIGN, MERCHANTIBILITY AND FITNESS FOR A PARTICULAR
  * PURPOSE, OR ARISING FROM A COURSE OF DEALING, USAGE OR TRADE PRACTICE.
- * 
+ *
  * Sun RPC is provided with no support and without any obligation on the
  * part of Sun Microsystems, Inc. to assist in its use, correction,
  * modification or enhancement.
- * 
+ *
  * SUN MICROSYSTEMS, INC. SHALL HAVE NO LIABILITY WITH RESPECT TO THE
  * INFRINGEMENT OF COPYRIGHTS, TRADE SECRETS OR ANY PATENTS BY SUN RPC
  * OR ANY PART THEREOF.
- * 
+ *
  * In no event will Sun Microsystems, Inc. be liable for any lost revenue
  * or profits or other special, indirect and consequential damages, even if
  * Sun has been advised of the possibility of such damages.
- * 
+ *
  * Sun Microsystems, Inc.
  * 2550 Garcia Avenue
  * Mountain View, California  94043
@@ -77,27 +77,27 @@
  */
 
 enum msg_type {
-	CALL=0,
-	REPLY=1
+    CALL = 0,
+    REPLY = 1
 };
 
 enum reply_stat {
-	MSG_ACCEPTED=0,
-	MSG_DENIED=1
+    MSG_ACCEPTED = 0,
+    MSG_DENIED = 1
 };
 
 enum accept_stat {
-	SUCCESS=0,
-	PROG_UNAVAIL=1,
-	PROG_MISMATCH=2,
-	PROC_UNAVAIL=3,
-	GARBAGE_ARGS=4,
-	SYSTEM_ERR=5
+    SUCCESS = 0,
+    PROG_UNAVAIL = 1,
+    PROG_MISMATCH = 2,
+    PROC_UNAVAIL = 3,
+    GARBAGE_ARGS = 4,
+    SYSTEM_ERR = 5
 };
 
 enum reject_stat {
-	RPC_MISMATCH=0,
-	AUTH_ERROR=1
+    RPC_MISMATCH = 0,
+    AUTH_ERROR = 1
 };
 
 /*
@@ -110,19 +110,19 @@ enum reject_stat {
  * accepted.
  */
 struct accepted_reply {
-	struct opaque_auth	ar_verf;
-	enum accept_stat	ar_stat;
-	union {
-		struct {
-			u_long	low;
-			u_long	high;
-		} AR_versions;
-		struct {
-			caddr_t	where;
-			xdrproc_t proc;
-		} AR_results;
-		/* and many other null cases */
-	} ru;
+    struct opaque_auth	ar_verf;
+    enum accept_stat	ar_stat;
+    union {
+        struct {
+            u_long	low;
+            u_long	high;
+        } AR_versions;
+        struct {
+            caddr_t	where;
+            xdrproc_t proc;
+        } AR_results;
+        /* and many other null cases */
+    } ru;
 #define	ar_results	ru.AR_results
 #define	ar_vers		ru.AR_versions
 };
@@ -131,14 +131,14 @@ struct accepted_reply {
  * Reply to an rpc request that was rejected by the server.
  */
 struct rejected_reply {
-	enum reject_stat rj_stat;
-	union {
-		struct {
-			u_long low;
-			u_long high;
-		} RJ_versions;
-		enum auth_stat RJ_why;  /* why authentication did not work */
-	} ru;
+    enum reject_stat rj_stat;
+    union {
+        struct {
+            u_long low;
+            u_long high;
+        } RJ_versions;
+        enum auth_stat RJ_why;  /* why authentication did not work */
+    } ru;
 #define	rj_vers	ru.RJ_versions
 #define	rj_why	ru.RJ_why
 };
@@ -147,11 +147,11 @@ struct rejected_reply {
  * Body of a reply to an rpc request.
  */
 struct reply_body {
-	enum reply_stat rp_stat;
-	union {
-		struct accepted_reply RP_ar;
-		struct rejected_reply RP_dr;
-	} ru;
+    enum reply_stat rp_stat;
+    union {
+        struct accepted_reply RP_ar;
+        struct rejected_reply RP_dr;
+    } ru;
 #define	rp_acpt	ru.RP_ar
 #define	rp_rjct	ru.RP_dr
 };
@@ -160,24 +160,24 @@ struct reply_body {
  * Body of an rpc request call.
  */
 struct call_body {
-	u_long cb_rpcvers;	/* must be equal to two */
-	u_long cb_prog;
-	u_long cb_vers;
-	u_long cb_proc;
-	struct opaque_auth cb_cred;
-	struct opaque_auth cb_verf; /* protocol specific - provided by client */
+    u_long cb_rpcvers;	/* must be equal to two */
+    u_long cb_prog;
+    u_long cb_vers;
+    u_long cb_proc;
+    struct opaque_auth cb_cred;
+    struct opaque_auth cb_verf; /* protocol specific - provided by client */
 };
 
 /*
  * The rpc message
  */
 struct rpc_msg {
-	u_long			rm_xid;
-	enum msg_type		rm_direction;
-	union {
-		struct call_body RM_cmb;
-		struct reply_body RM_rmb;
-	} ru;
+    u_long			rm_xid;
+    enum msg_type		rm_direction;
+    union {
+        struct call_body RM_cmb;
+        struct reply_body RM_rmb;
+    } ru;
 #define	rm_call		ru.RM_cmb
 #define	rm_reply	ru.RM_rmb
 };
@@ -191,7 +191,7 @@ struct rpc_msg {
  * 	XDR *xdrs;
  * 	struct rpc_msg *cmsg;
  */
-DllExport bool_t	xdr_callmsg();
+DllExport bool_t	xdr_callmsg(register XDR* xdrs, register struct rpc_msg* cmsg);
 
 /*
  * XDR routine to pre-serialize the static part of a rpc message.
@@ -199,7 +199,7 @@ DllExport bool_t	xdr_callmsg();
  * 	XDR *xdrs;
  * 	struct rpc_msg *cmsg;
  */
-DllExport bool_t	xdr_callhdr();
+DllExport bool_t	xdr_callhdr(register XDR* xdrs, register struct rpc_msg* cmsg);
 
 /*
  * XDR routine to handle a rpc reply.
@@ -207,7 +207,7 @@ DllExport bool_t	xdr_callhdr();
  * 	XDR *xdrs;
  * 	struct rpc_msg *rmsg;
  */
-DllExport bool_t	xdr_replymsg();
+DllExport bool_t	xdr_replymsg(register XDR* xdrs, register struct rpc_msg* rmsg);
 
 /*
  * Fills in the error part of a reply message.
@@ -215,7 +215,7 @@ DllExport bool_t	xdr_replymsg();
  * 	struct rpc_msg *msg;
  * 	struct rpc_err *error;
  */
-extern void	_seterr_reply();
+extern void	_seterr_reply(register struct rpc_msg* msg, register struct rpc_err* error);
 
 #endif	/*  __RPC_MSG_HEADER__ */
 

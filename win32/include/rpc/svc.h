@@ -6,23 +6,23 @@
  *
  * SUN's ONC RPC for Windows NT and Windows 95. Ammended port from
  * Martin F.Gergeleit's distribution. This version has been modified
- * and cleaned, such as to be compatible with Windows NT and Windows 95. 
+ * and cleaned, such as to be compatible with Windows NT and Windows 95.
  * Compiler: MSVC++ version 4.2 and 5.0.
  *
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  **********************************************************************/
 /*********************************************************************
  * RPC for the Windows NT Operating System
  * 1993 by Martin F. Gergeleit
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
  *
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
 
@@ -34,23 +34,23 @@
  * may copy or modify Sun RPC without charge, but are not authorized
  * to license or distribute it to anyone else except as part of a product or
  * program developed by the user.
- * 
+ *
  * SUN RPC IS PROVIDED AS IS WITH NO WARRANTIES OF ANY KIND INCLUDING THE
  * WARRANTIES OF DESIGN, MERCHANTIBILITY AND FITNESS FOR A PARTICULAR
  * PURPOSE, OR ARISING FROM A COURSE OF DEALING, USAGE OR TRADE PRACTICE.
- * 
+ *
  * Sun RPC is provided with no support and without any obligation on the
  * part of Sun Microsystems, Inc. to assist in its use, correction,
  * modification or enhancement.
- * 
+ *
  * SUN MICROSYSTEMS, INC. SHALL HAVE NO LIABILITY WITH RESPECT TO THE
  * INFRINGEMENT OF COPYRIGHTS, TRADE SECRETS OR ANY PATENTS BY SUN RPC
  * OR ANY PART THEREOF.
- * 
+ *
  * In no event will Sun Microsystems, Inc. be liable for any lost revenue
  * or profits or other special, indirect and consequential damages, even if
  * Sun has been advised of the possibility of such damages.
- * 
+ *
  * Sun Microsystems, Inc.
  * 2550 Garcia Avenue
  * Mountain View, California  94043
@@ -88,30 +88,30 @@
  */
 
 enum xprt_stat {
-	XPRT_DIED,
-	XPRT_MOREREQS,
-	XPRT_IDLE
+    XPRT_DIED,
+    XPRT_MOREREQS,
+    XPRT_IDLE
 };
 
 /*
  * Server side transport handle
  */
 typedef struct {
-	int		xp_sock;
-	u_short		xp_port;	 /* associated port number */
-	struct xp_ops {
-	    bool_t	(*xp_recv)();	 /* receive incomming requests */
-	    enum xprt_stat (*xp_stat)(); /* get transport status */
-	    bool_t	(*xp_getargs)(); /* get arguments */
-	    bool_t	(*xp_reply)();	 /* send reply */
-	    bool_t	(*xp_freeargs)();/* free mem allocated for args */
-	    void	(*xp_destroy)(); /* destroy this struct */
-	} *xp_ops;
-	int		xp_addrlen;	 /* length of remote address */
-	struct sockaddr_in xp_raddr;	 /* remote address */
-	struct opaque_auth xp_verf;	 /* raw response verifier */
-	caddr_t		xp_p1;		 /* private */
-	caddr_t		xp_p2;		 /* private */
+    int		xp_sock;
+    u_short		xp_port;	 /* associated port number */
+    struct xp_ops {
+        bool_t	(*xp_recv)();	 /* receive incomming requests */
+        enum xprt_stat(*xp_stat)();  /* get transport status */
+        bool_t	(*xp_getargs)(); /* get arguments */
+        bool_t	(*xp_reply)();	 /* send reply */
+        bool_t	(*xp_freeargs)();/* free mem allocated for args */
+        void	(*xp_destroy)(); /* destroy this struct */
+    }* xp_ops;
+    int		xp_addrlen;	 /* length of remote address */
+    struct sockaddr_in xp_raddr;	 /* remote address */
+    struct opaque_auth xp_verf;	 /* raw response verifier */
+    caddr_t		xp_p1;		 /* private */
+    caddr_t		xp_p2;		 /* private */
 } SVCXPRT;
 
 /*
@@ -162,12 +162,12 @@ typedef struct {
  * Service request
  */
 struct svc_req {
-	u_long		rq_prog;	/* service program number */
-	u_long		rq_vers;	/* service protocol version */
-	u_long		rq_proc;	/* the desired procedure */
-	struct opaque_auth rq_cred;	/* raw creds from the wire */
-	caddr_t		rq_clntcred;	/* read only cooked cred */
-	SVCXPRT	*rq_xprt;		/* associated transport */
+    u_long		rq_prog;	/* service program number */
+    u_long		rq_vers;	/* service protocol version */
+    u_long		rq_proc;	/* the desired procedure */
+    struct opaque_auth rq_cred;	/* raw creds from the wire */
+    caddr_t		rq_clntcred;	/* read only cooked cred */
+    SVCXPRT*	rq_xprt;		/* associated transport */
 };
 
 
@@ -179,9 +179,9 @@ struct svc_req {
  *	u_long prog;
  *	u_long vers;
  *	void (*dispatch)();
- *	int protocol;  /* like TCP or UDP, zero means do not register 
+ *	int protocol;  /* like TCP or UDP, zero means do not register
  */
-DllExport bool_t	svc_register();
+DllExport bool_t	svc_register(SVCXPRT* xprt, u_long prog, u_long vers, void(*dispatch)(), int protocol);
 
 /*
  * Service un-registration
@@ -190,7 +190,7 @@ DllExport bool_t	svc_register();
  *	u_long prog;
  *	u_long vers;
  */
-DllExport void	svc_unregister();
+DllExport void	svc_unregister(u_long prog, u_long vers);
 
 /*
  * Transport registration.
@@ -198,7 +198,7 @@ DllExport void	svc_unregister();
  * xprt_register(xprt)
  *	SVCXPRT *xprt;
  */
-DllExport void	xprt_register();
+DllExport void	xprt_register(SVCXPRT* xprt);
 
 /*
  * Transport un-register
@@ -206,7 +206,7 @@ DllExport void	xprt_register();
  * xprt_unregister(xprt)
  *	SVCXPRT *xprt;
  */
-DllExport void	xprt_unregister();
+DllExport void	xprt_unregister(SVCXPRT* xprt);
 
 
 
@@ -214,7 +214,7 @@ DllExport void	xprt_unregister();
 /*
  * When the service routine is called, it must first check to see if it
  * knows about the procedure;  if not, it should call svcerr_noproc
- * and return.  If so, it should deserialize its arguments via 
+ * and return.  If so, it should deserialize its arguments via
  * SVC_GETARGS (defined above).  If the deserialization does not work,
  * svcerr_decode should be called followed by a return.  Successful
  * decoding of the arguments should be followed the execution of the
@@ -225,7 +225,7 @@ DllExport void	xprt_unregister();
  * Note: do not confuse access-control failure with weak authentication!
  *
  * NB: In pure implementations of rpc, the caller always waits for a reply
- * msg.  This message is sent when svc_sendreply is called.  
+ * msg.  This message is sent when svc_sendreply is called.
  * Therefore pure service implementations should always call
  * svc_sendreply even if the function logically returns void;  use
  * xdr.h - xdr_void for the xdr routine.  HOWEVER, tcp based rpc allows
@@ -245,7 +245,7 @@ DllExport void	svcerr_progvers();
 DllExport void	svcerr_auth();
 DllExport void	svcerr_noprog();
 DllExport void	svcerr_systemerr();
-    
+
 /*
  * Lowest level dispatching -OR- who owns this process anyway.
  * Somebody has to wait for incoming requests and then call the correct
@@ -259,7 +259,7 @@ DllExport void	svcerr_systemerr();
 
 /*
  * Global keeper of rpc service descriptors in use
- * dynamic; must be inspected before each call to select 
+ * dynamic; must be inspected before each call to select
  */
 #ifdef FD_SETSIZE
 #ifdef WIN32
@@ -302,18 +302,18 @@ DllExport void	svc_run(); 	 /* never returns */
 /*
  * Memory based rpc for testing and timing.
  */
-DllExport SVCXPRT *svcraw_create();
+DllExport SVCXPRT* svcraw_create();
 
 /*
  * Udp based rpc.
  */
-DllExport SVCXPRT *svcudp_create();
-DllExport SVCXPRT *svcudp_bufcreate();
+DllExport SVCXPRT* svcudp_create();
+DllExport SVCXPRT* svcudp_bufcreate();
 
 /*
  * Tcp based rpc.
  */
-DllExport SVCXPRT *svctcp_create();
+DllExport SVCXPRT* svctcp_create();
 
 
 

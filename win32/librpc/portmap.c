@@ -77,7 +77,7 @@ static	char sccsid[] = "@(#)portmap.c 1.2 85/03/13 Copyr 1984 Sun Micro";
 #include <rpc/pmap_pro.h>
 #include <stdio.h>
 
-int reg_service();
+int reg_service(struct svc_req* rqstp, SVCXPRT* xprt);
 static void callit(struct svc_req* rqstp, SVCXPRT* xprt);
 
 #ifdef DEBUG
@@ -87,7 +87,7 @@ static int debug = 1;
 static int debug = 0;
 #endif
 
-VOID main(int argc, char* argv[]) {
+void main(int argc, char* argv[]) {
     SVCXPRT* xprt;
     int sock, pid, t;
     struct sockaddr_in addr;
@@ -176,10 +176,7 @@ u_long vers;
 /*
  * 1 OK, 0 not
  */
-reg_service(rqstp, xprt)
-struct svc_req* rqstp;
-SVCXPRT* xprt;
-{
+int reg_service(struct svc_req* rqstp, SVCXPRT* xprt) {
     struct pmap reg;
     struct pmaplist* pml, *prevpml, *fnd;
     int ans, port;
@@ -188,7 +185,6 @@ SVCXPRT* xprt;
     if (debug)
         fprintf(stderr, "server: about do a switch\n");
     switch (rqstp->rq_proc) {
-
         case PMAPPROC_NULL:
             /*
              * Null proc call
@@ -197,7 +193,6 @@ SVCXPRT* xprt;
                 abort();
             }
             break;
-
         case PMAPPROC_SET:
             /*
              * Set a program,version to port mapping
@@ -238,7 +233,6 @@ done:
                 }
             }
             break;
-
         case PMAPPROC_UNSET:
             /*
              * Remove a program,version to port mapping.
@@ -272,7 +266,6 @@ done:
                 }
             }
             break;
-
         case PMAPPROC_GETPORT:
             /*
              * Lookup the mapping for a program,version and return its port
@@ -292,7 +285,6 @@ done:
                 }
             }
             break;
-
         case PMAPPROC_DUMP:
             /*
              * Return the current set of mapped program,version
@@ -307,7 +299,6 @@ done:
                 }
             }
             break;
-
         case PMAPPROC_CALLIT:
             /*
              * Calls a procedure on the local machine.  If the requested
@@ -318,7 +309,6 @@ done:
              */
             callit(rqstp, xprt);
             break;
-
         default:
             svcerr_noproc(xprt);
             break;
@@ -336,12 +326,7 @@ typedef struct encap_parms {
     char* args;
 } encap_parms_t;
 
-static bool_t
-xdr_encap_parms(xdrs, epp)
-XDR* xdrs;
-struct encap_parms* epp;
-{
-
+static bool_t xdr_encap_parms(XDR* xdrs, struct encap_parms* epp) {
     return (xdr_bytes(xdrs, &(epp->args), &(epp->arglen), ARGSIZE));
 }
 
@@ -353,12 +338,7 @@ typedef struct rmtcallargs {
     struct encap_parms rmt_args;
 } rmtcallargs_t;
 
-static bool_t
-xdr_rmtcall_args(xdrs, cap)
-register XDR* xdrs;
-register struct rmtcallargs* cap;
-{
-
+static bool_t xdr_rmtcall_args(register XDR* xdrs, register struct rmtcallargs* cap) {
     /* does not get a port number */
     if (xdr_u_long(xdrs, &(cap->rmt_prog)) &&
             xdr_u_long(xdrs, &(cap->rmt_vers)) &&
@@ -368,11 +348,7 @@ register struct rmtcallargs* cap;
     return (FALSE);
 }
 
-static bool_t
-xdr_rmtcall_result(xdrs, cap)
-register XDR* xdrs;
-register struct rmtcallargs* cap;
-{
+static bool_t xdr_rmtcall_result(register XDR* xdrs, register struct rmtcallargs* cap) {
     if (xdr_u_long(xdrs, &(cap->rmt_port)))
         return (xdr_encap_parms(xdrs, &(cap->rmt_args)));
     return (FALSE);
@@ -382,12 +358,7 @@ register struct rmtcallargs* cap;
  * only worries about the struct encap_parms part of struct rmtcallargs.
  * The arglen must already be set!!
  */
-static bool_t
-xdr_opaque_parms(xdrs, cap)
-XDR* xdrs;
-struct rmtcallargs* cap;
-{
-
+static bool_t xdr_opaque_parms(XDR* xdrs, struct rmtcallargs* cap) {
     return (xdr_opaque(xdrs, cap->rmt_args.args, cap->rmt_args.arglen));
 }
 
@@ -395,13 +366,8 @@ struct rmtcallargs* cap;
  * This routine finds and sets the length of incoming opaque paraters
  * and then calls xdr_opaque_parms.
  */
-static bool_t
-xdr_len_opaque_parms(xdrs, cap)
-register XDR* xdrs;
-struct rmtcallargs* cap;
-{
+static bool_t xdr_len_opaque_parms(register XDR* xdrs, struct rmtcallargs* cap) {
     register u_int beginpos, lowpos, highpos, currpos, pos;
-
     beginpos = lowpos = pos = xdr_getpos(xdrs);
     highpos = lowpos + ARGSIZE;
     while ((int)(highpos - lowpos) >= 0) {
@@ -425,8 +391,7 @@ struct rmtcallargs* cap;
  * a machine should shut-up instead of complain, less the requestor be
  * overrun with complaints at the expense of not hearing a valid reply ...
  */
-static void callit(struct svc_req* rqstp, SVCXPRT* xprt)
-{
+static void callit(struct svc_req* rqstp, SVCXPRT* xprt) {
     char buf[2000];
     struct rmtcallargs a;
     struct pmaplist* pml;

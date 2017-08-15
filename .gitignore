@@ -3,3 +3,4 @@
 /win32/msvc/*.suo
 /win32/msvc/*.sdf
 /win32/msvc/*.user
+/win32/msvc/*.opensdf

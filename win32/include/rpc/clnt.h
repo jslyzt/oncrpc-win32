@@ -6,23 +6,23 @@
  *
  * SUN's ONC RPC for Windows NT and Windows 95. Ammended port from
  * Martin F.Gergeleit's distribution. This version has been modified
- * and cleaned, such as to be compatible with Windows NT and Windows 95. 
+ * and cleaned, such as to be compatible with Windows NT and Windows 95.
  * Compiler: MSVC++ version 4.2 and 5.0.
  *
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  **********************************************************************/
 /*********************************************************************
  * RPC for the Windows NT Operating System
  * 1993 by Martin F. Gergeleit
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
  *
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
 
@@ -34,23 +34,23 @@
  * may copy or modify Sun RPC without charge, but are not authorized
  * to license or distribute it to anyone else except as part of a product or
  * program developed by the user.
- * 
+ *
  * SUN RPC IS PROVIDED AS IS WITH NO WARRANTIES OF ANY KIND INCLUDING THE
  * WARRANTIES OF DESIGN, MERCHANTIBILITY AND FITNESS FOR A PARTICULAR
  * PURPOSE, OR ARISING FROM A COURSE OF DEALING, USAGE OR TRADE PRACTICE.
- * 
+ *
  * Sun RPC is provided with no support and without any obligation on the
  * part of Sun Microsystems, Inc. to assist in its use, correction,
  * modification or enhancement.
- * 
+ *
  * SUN MICROSYSTEMS, INC. SHALL HAVE NO LIABILITY WITH RESPECT TO THE
  * INFRINGEMENT OF COPYRIGHTS, TRADE SECRETS OR ANY PATENTS BY SUN RPC
  * OR ANY PART THEREOF.
- * 
+ *
  * In no event will Sun Microsystems, Inc. be liable for any lost revenue
  * or profits or other special, indirect and consequential damages, even if
  * Sun has been advised of the possibility of such damages.
- * 
+ *
  * Sun Microsystems, Inc.
  * 2550 Garcia Avenue
  * Mountain View, California  94043
@@ -71,41 +71,41 @@
  * independent) list of errors.
  */
 enum clnt_stat {
-	RPC_SUCCESS=0,			/* call succeeded */
-	/*
-	 * local errors
-	 */
-	RPC_CANTENCODEARGS=1,		/* can't encode arguments */
-	RPC_CANTDECODERES=2,		/* can't decode results */
-	RPC_CANTSEND=3,			/* failure in sending call */
-	RPC_CANTRECV=4,			/* failure in receiving result */
-	RPC_TIMEDOUT=5,			/* call timed out */
-	/*
-	 * remote errors
-	 */
-	RPC_VERSMISMATCH=6,		/* rpc versions not compatible */
-	RPC_AUTHERROR=7,		/* authentication error */
-	RPC_PROGUNAVAIL=8,		/* program not available */
-	RPC_PROGVERSMISMATCH=9,		/* program version mismatched */
-	RPC_PROCUNAVAIL=10,		/* procedure unavailable */
-	RPC_CANTDECODEARGS=11,		/* decode arguments error */
-	RPC_SYSTEMERROR=12,		/* generic "other problem" */
+    RPC_SUCCESS = 0,			/* call succeeded */
+    /*
+     * local errors
+     */
+    RPC_CANTENCODEARGS = 1,		/* can't encode arguments */
+    RPC_CANTDECODERES = 2,		/* can't decode results */
+    RPC_CANTSEND = 3,			/* failure in sending call */
+    RPC_CANTRECV = 4,			/* failure in receiving result */
+    RPC_TIMEDOUT = 5,			/* call timed out */
+    /*
+     * remote errors
+     */
+    RPC_VERSMISMATCH = 6,		/* rpc versions not compatible */
+    RPC_AUTHERROR = 7,		/* authentication error */
+    RPC_PROGUNAVAIL = 8,		/* program not available */
+    RPC_PROGVERSMISMATCH = 9,		/* program version mismatched */
+    RPC_PROCUNAVAIL = 10,		/* procedure unavailable */
+    RPC_CANTDECODEARGS = 11,		/* decode arguments error */
+    RPC_SYSTEMERROR = 12,		/* generic "other problem" */
 
-	/*
-	 * callrpc & clnt_create errors
-	 */
-	RPC_UNKNOWNHOST=13,		/* unknown host name */
-	RPC_UNKNOWNPROTO=17,		/* unkown protocol */
+    /*
+     * callrpc & clnt_create errors
+     */
+    RPC_UNKNOWNHOST = 13,		/* unknown host name */
+    RPC_UNKNOWNPROTO = 17,		/* unkown protocol */
 
-	/*
-	 * _ create errors
-	 */
-	RPC_PMAPFAILURE=14,		/* the pmapper failed in its call */
-	RPC_PROGNOTREGISTERED=15,	/* remote program is not registered */
-	/*
-	 * unspecified error
-	 */
-	RPC_FAILED=16
+    /*
+     * _ create errors
+     */
+    RPC_PMAPFAILURE = 14,		/* the pmapper failed in its call */
+    RPC_PROGNOTREGISTERED = 15,	/* remote program is not registered */
+    /*
+     * unspecified error
+     */
+    RPC_FAILED = 16
 };
 
 
@@ -113,19 +113,19 @@ enum clnt_stat {
  * Error info.
  */
 struct rpc_err {
-	enum clnt_stat re_status;
-	union {
-		int RE_errno;		/* realated system error */
-		enum auth_stat RE_why;	/* why the auth error occurred */
-		struct {
-			u_long low;	/* lowest verion supported */
-			u_long high;	/* highest verion supported */
-		} RE_vers;
-		struct {		/* maybe meaningful if RPC_FAILED */
-			long s1;
-			long s2;
-		} RE_lb;		/* life boot & debugging only */
-	} ru;
+    enum clnt_stat re_status;
+    union {
+        int RE_errno;		/* realated system error */
+        enum auth_stat RE_why;	/* why the auth error occurred */
+        struct {
+            u_long low;	/* lowest verion supported */
+            u_long high;	/* highest verion supported */
+        } RE_vers;
+        struct {		/* maybe meaningful if RPC_FAILED */
+            long s1;
+            long s2;
+        } RE_lb;		/* life boot & debugging only */
+    } ru;
 #define	re_errno	ru.RE_errno
 #define	re_why		ru.RE_why
 #define	re_vers		ru.RE_vers
@@ -139,16 +139,16 @@ struct rpc_err {
  * Client is responsible for initializing auth, see e.g. auth_none.c.
  */
 typedef struct {
-	AUTH	*cl_auth;			/* authenticator */
-	struct clnt_ops {
-		enum clnt_stat	(*cl_call)();	/* call remote procedure */
-		void		(*cl_abort)();	/* abort a call */
-		void		(*cl_geterr)();	/* get specific error code */
-		bool_t		(*cl_freeres)(); /* frees results */
-		void		(*cl_destroy)();/* destroy this structure */
-		bool_t          (*cl_control)();/* the ioctl() of rpc */
-	} *cl_ops;
-	caddr_t			cl_private;	/* private stuff */
+    AUTH*	cl_auth;			/* authenticator */
+    struct clnt_ops {
+        enum clnt_stat(*cl_call)();	/* call remote procedure */
+        void	(*cl_abort)();	/* abort a call */
+        void	(*cl_geterr)();	/* get specific error code */
+        bool_t	(*cl_freeres)();  /* frees results */
+        void	(*cl_destroy)(); /* destroy this structure */
+        bool_t (*cl_control)();         /* the ioctl() of rpc */
+    }* cl_ops;
+    caddr_t			cl_private;	/* private stuff */
 } CLIENT;
 
 
@@ -252,7 +252,7 @@ typedef struct {
 
 /*
  * Below are the client handle creation routines for the various
- * implementations of client side rpc.  They can return NULL if a 
+ * implementations of client side rpc.  They can return NULL if a
  * creation failure occurs.
  */
 
@@ -263,14 +263,14 @@ typedef struct {
  *	u_long prog;
  *	u_long vers;
  */
-DllExport CLIENT *clntraw_create();
+DllExport CLIENT* clntraw_create(u_long prog, u_long vers);
 
 
 /*
  * Generic client creation routine. Supported protocols are "udp" and "tcp"
  */
-DllExport CLIENT *
-clnt_create(/*host, prog, vers, prot*/); /*
+DllExport CLIENT* clnt_create(char* hostname, u_long prog, u_long vers, char* proto);
+/*  host, prog, vers, prot /*
 	char *host; 	-- hostname
 	u_long prog;	-- program number
 	u_long vers;	-- version number
@@ -291,7 +291,7 @@ clnt_create(/*host, prog, vers, prot*/); /*
  *	u_int sendsz;
  *	u_int recvsz;
  */
-DllExport CLIENT *clnttcp_create();
+DllExport CLIENT* clnttcp_create(struct sockaddr_in* raddr, u_long prog, u_long vers, register int* sockp, u_int sendsz, u_int recvsz);
 
 /*
  * UDP based rpc.
@@ -314,32 +314,32 @@ DllExport CLIENT *clnttcp_create();
  *	u_int sendsz;
  *	u_int recvsz;
  */
-DllExport CLIENT *clntudp_create();
-DllExport CLIENT *clntudp_bufcreate();
+DllExport CLIENT* clntudp_create(struct sockaddr_in* raddr, u_long program, u_long version, struct timeval wait, register int* sockp);
+DllExport CLIENT* clntudp_bufcreate(struct sockaddr_in* raddr, u_long program, u_long version, struct timeval wait, register int* sockp, u_int sendsz, u_int recvsz);
 
 /*
  * Print why creation failed
  */
-DllExport void clnt_pcreateerror(/* char *msg */);	/* stderr */
-DllExport char *clnt_spcreateerror(/* char *msg */);	/* string */
+DllExport void clnt_pcreateerror(char *msg);	/* stderr */
+DllExport char* clnt_spcreateerror(char *msg);	/* string */
 
 /*
  * Like clnt_perror(), but is more verbose in its output
- */ 
-DllExport void clnt_perrno(/* enum clnt_stat num */);	/* stderr */
+ */
+DllExport void clnt_perrno(enum clnt_stat num);	/* stderr */
 
 /*
  * Print an English error message, given the client error code
  */
-DllExport void clnt_perror(/* CLIENT *clnt, char *msg */); 	/* stderr */
-DllExport char *clnt_sperror(/* CLIENT *clnt, char *msg */);	/* string */
+DllExport void clnt_perror(CLIENT *clnt, char *msg); 	/* stderr */
+DllExport char* clnt_sperror(CLIENT *clnt, char *msg);	/* string */
 
-/* 
+/*
  * If a creation fails, the following allows the user to figure out why.
  */
 struct rpc_createerr {
-	enum clnt_stat cf_stat;
-	struct rpc_err cf_error; /* useful when cf_stat == RPC_PMAPFAILURE */
+    enum clnt_stat cf_stat;
+    struct rpc_err cf_error; /* useful when cf_stat == RPC_PMAPFAILURE */
 };
 
 #ifdef WIN32
@@ -360,7 +360,7 @@ DllExport struct rpc_createerr rpc_createerr;
 /*
  * Copy error message to buffer.
  */
-DllExport char *clnt_sperrno(/* enum clnt_stat num */);	/* string */
+DllExport char* clnt_sperrno(enum clnt_stat num);	/* string */
 
 
 

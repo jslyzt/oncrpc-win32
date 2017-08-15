@@ -6,23 +6,23 @@
  *
  * SUN's ONC RPC for Windows NT and Windows 95. Ammended port from
  * Martin F.Gergeleit's distribution. This version has been modified
- * and cleaned, such as to be compatible with Windows NT and Windows 95. 
+ * and cleaned, such as to be compatible with Windows NT and Windows 95.
  * Compiler: MSVC++ version 4.2 and 5.0.
  *
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  **********************************************************************/
 /*********************************************************************
  * RPC for the Windows NT Operating System
  * 1993 by Martin F. Gergeleit
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
  *
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
 
@@ -69,131 +69,124 @@ static char sccsid[] = "@(#)svc_simple.c 1.18 87/08/11 Copyr 1984 Sun Micro";
 #include "all_oncrpc.h"
 
 static struct proglst {
-	char *(*p_progname)();
-	int  p_prognum;
-	int  p_procnum;
-	xdrproc_t p_inproc, p_outproc;
-	struct proglst *p_nxt;
-} *proglst;
-static void universal();
-static SVCXPRT *transp;
-struct proglst *pl;
+    char* (*p_progname)();
+    int  p_prognum;
+    int  p_procnum;
+    xdrproc_t p_inproc, p_outproc;
+    struct proglst* p_nxt;
+}* proglst;
+static void universal(struct svc_req* rqstp, SVCXPRT* transp);
+static SVCXPRT* transp;
+struct proglst* pl;
 
-registerrpc(prognum, versnum, procnum, progname, inproc, outproc)
-	char *(*progname)();
-	xdrproc_t inproc, outproc;
+u_short registerrpc(int prognum, u_long versnum, int procnum, char* (*progname)(), xdrproc_t inproc, xdrproc_t outproc)
 {
-
-	if (procnum == NULLPROC) {
+    if (procnum == NULLPROC) {
 #ifdef WIN32
-		nt_rpc_report(
-		    "can't reassign procedure number 0\n");
+        nt_rpc_report(
+            "can't reassign procedure number 0\n");
 #else
-		(void) fprintf(stderr,
-		    "can't reassign procedure number %d\n", NULLPROC);
+        (void) fprintf(stderr,
+                       "can't reassign procedure number %d\n", NULLPROC);
 #endif
-		return (-1);
-	}
-	if (transp == 0) {
-		transp = svcudp_create(RPC_ANYSOCK);
-		if (transp == NULL) {
+        return (-1);
+    }
+    if (transp == 0) {
+        transp = svcudp_create(RPC_ANYSOCK);
+        if (transp == NULL) {
 #ifdef WIN32
-			nt_rpc_report("couldn't create an rpc server\n");
+            nt_rpc_report("couldn't create an rpc server\n");
 #else
-			(void) fprintf(stderr, "couldn't create an rpc server\n");
+            (void) fprintf(stderr, "couldn't create an rpc server\n");
 #endif
-			return (-1);
-		}
-	}
-	(void) pmap_unset((u_long)prognum, (u_long)versnum);
-	if (!svc_register(transp, (u_long)prognum, (u_long)versnum,
-	    universal, IPPROTO_UDP)) {
+            return (-1);
+        }
+    }
+    (void) pmap_unset((u_long)prognum, (u_long)versnum);
+    if (!svc_register(transp, (u_long)prognum, (u_long)versnum, universal, IPPROTO_UDP)) {
 #ifdef WIN32
-	    	nt_rpc_report("couldn't register prog");
+        nt_rpc_report("couldn't register prog");
 #else
-	    	(void) fprintf(stderr, "couldn't register prog %d vers %d\n",
-		    prognum, versnum);
+        (void) fprintf(stderr, "couldn't register prog %d vers %d\n",
+                       prognum, versnum);
 #endif
-		return (-1);
-	}
-	pl = (struct proglst *)malloc(sizeof(struct proglst));
-	if (pl == NULL) {
+        return (-1);
+    }
+    pl = (struct proglst*)malloc(sizeof(struct proglst));
+    if (pl == NULL) {
 #ifdef WIN32
-		nt_rpc_report("registerrpc: out of memory\n");
+        nt_rpc_report("registerrpc: out of memory\n");
 #else
-		(void) fprintf(stderr, "registerrpc: out of memory\n");
+        (void) fprintf(stderr, "registerrpc: out of memory\n");
 #endif
-		return (-1);
-	}
-	pl->p_progname = progname;
-	pl->p_prognum = prognum;
-	pl->p_procnum = procnum;
-	pl->p_inproc = inproc;
-	pl->p_outproc = outproc;
-	pl->p_nxt = proglst;
-	proglst = pl;
-	return (0);
+        return (-1);
+    }
+    pl->p_progname = progname;
+    pl->p_prognum = prognum;
+    pl->p_procnum = procnum;
+    pl->p_inproc = inproc;
+    pl->p_outproc = outproc;
+    pl->p_nxt = proglst;
+    proglst = pl;
+    return (0);
 }
 
-static void
-universal(rqstp, transp)
-	struct svc_req *rqstp;
-	SVCXPRT *transp;
+static void universal(struct svc_req* rqstp, SVCXPRT* transp)
 {
-	int prog, proc;
-	char *outdata;
-	char xdrbuf[UDPMSGSIZE];
-	struct proglst *pl;
+    int prog, proc;
+    char* outdata;
+    char xdrbuf[UDPMSGSIZE];
+    struct proglst* pl;
 
-	/*
-	 * enforce "procnum 0 is echo" convention
-	 */
-	if (rqstp->rq_proc == NULLPROC) {
-		if (svc_sendreply(transp, xdr_void, (char *)NULL) == FALSE) {
+    /*
+     * enforce "procnum 0 is echo" convention
+     */
+    if (rqstp->rq_proc == NULLPROC) {
+        if (svc_sendreply(transp, xdr_void, (char*)NULL) == FALSE) {
 #ifdef WIN32
-			nt_rpc_report(stderr, "xxx\n");
+            nt_rpc_report("xxx\n");
 #else
-			(void) fprintf(stderr, "xxx\n");
+            (void) fprintf(stderr, "xxx\n");
 #endif
-			exit(1);
-		}
-		return;
-	}
-	prog = rqstp->rq_prog;
-	proc = rqstp->rq_proc;
-	for (pl = proglst; pl != NULL; pl = pl->p_nxt)
-		if (pl->p_prognum == prog && pl->p_procnum == proc) {
-			/* decode arguments into a CLEAN buffer */
-			bzero(xdrbuf, sizeof(xdrbuf)); /* required ! */
-			if (!svc_getargs(transp, pl->p_inproc, xdrbuf)) {
-				svcerr_decode(transp);
-				return;
-			}
-			outdata = (*(pl->p_progname))(xdrbuf);
-			if (outdata == NULL && pl->p_outproc != xdr_void)
-				/* there was an error */
-				return;
-			if (!svc_sendreply(transp, pl->p_outproc, outdata)) {
+            exit(1);
+        }
+        return;
+    }
+    prog = rqstp->rq_prog;
+    proc = rqstp->rq_proc;
+    for (pl = proglst; pl != NULL; pl = pl->p_nxt)
+        if (pl->p_prognum == prog && pl->p_procnum == proc) {
+            /* decode arguments into a CLEAN buffer */
+            bzero(xdrbuf, sizeof(xdrbuf)); /* required ! */
+            if (!svc_getargs(transp, pl->p_inproc, xdrbuf)) {
+                svcerr_decode(transp);
+                return;
+            }
+            outdata = (*(pl->p_progname))(xdrbuf);
+            if (outdata == NULL && pl->p_outproc != xdr_void)
+                /* there was an error */
+                return;
+            if (!svc_sendreply(transp, pl->p_outproc, outdata)) {
 #ifdef WIN32
-				nt_rpc_report(
-				    "trouble replying to prog\n"
-				    /*, pl->p_prognum*/);
+                nt_rpc_report(
+                    "trouble replying to prog\n"
+                    /*, pl->p_prognum*/);
 #else
-				(void) fprintf(stderr,
-				    "trouble replying to prog %d\n",
-				    pl->p_prognum);
+                (void) fprintf(stderr,
+                               "trouble replying to prog %d\n",
+                               pl->p_prognum);
 #endif
-				exit(1);
-			}
-			/* free the decoded arguments */
-			(void)svc_freeargs(transp, pl->p_inproc, xdrbuf);
-			return;
-		}
+                exit(1);
+            }
+            /* free the decoded arguments */
+            (void)svc_freeargs(transp, pl->p_inproc, xdrbuf);
+            return;
+        }
 #ifdef WIN32
-	nt_rpc_report("never registered prog %d\n"/*, prog*/);
+    nt_rpc_report("never registered prog %d\n"/*, prog*/);
 #else
-	(void) fprintf(stderr, "never registered prog %d\n", prog);
+    (void) fprintf(stderr, "never registered prog %d\n", prog);
 #endif
-	exit(1);
+    exit(1);
 }
 

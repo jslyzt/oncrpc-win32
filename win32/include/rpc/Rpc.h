@@ -79,12 +79,6 @@
 
 #define WSAerrno (WSAGetLastError())
 #define gettimeofday(tv,tz) ((tv)->tv_sec = time(0), (tv)->tv_usec = 0)
-
-DllExport int rpc_nt_init(void);
-DllExport int rpc_nt_exit(void);
-DllExport void nt_rpc_report();
-DllExport int xdr_opaque_auth();
-
 #else  /* not WIN32 */ 
 #define DllExport	extern
 #define DllImport	extern
@@ -126,5 +120,13 @@ DllExport int xdr_opaque_auth();
  */
 /* routines for parsing /etc/rpc */
 #include <rpc/netdb.h>		/* structures and routines to parse /etc/rpc */
+
+#ifdef WIN32
+DllExport int rpc_nt_init(void);
+DllExport int rpc_nt_exit(void);
+DllExport void nt_rpc_report(LPTSTR lpszMsg);
+DllExport bool_t xdr_opaque_auth(register XDR* xdrs, register struct opaque_auth* ap);
+#endif // WIN32
+
 
 #endif /* ndef __RPC_HEADER__ */

@@ -67,4 +67,4 @@
 /*
  * Server side authenticator
  */
-extern enum auth_stat _authenticate();
+extern enum auth_stat _authenticate(register struct svc_req* rqst, struct rpc_msg* msg);

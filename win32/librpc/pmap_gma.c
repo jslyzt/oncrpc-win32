@@ -6,23 +6,23 @@
  *
  * SUN's ONC RPC for Windows NT and Windows 95. Ammended port from
  * Martin F.Gergeleit's distribution. This version has been modified
- * and cleaned, such as to be compatible with Windows NT and Windows 95. 
+ * and cleaned, such as to be compatible with Windows NT and Windows 95.
  * Compiler: MSVC++ version 4.2 and 5.0.
  *
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  **********************************************************************/
 /*********************************************************************
  * RPC for the Windows NT Operating System
  * 1993 by Martin F. Gergeleit
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
  *
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
 
@@ -34,23 +34,23 @@
  * may copy or modify Sun RPC without charge, but are not authorized
  * to license or distribute it to anyone else except as part of a product or
  * program developed by the user.
- * 
+ *
  * SUN RPC IS PROVIDED AS IS WITH NO WARRANTIES OF ANY KIND INCLUDING THE
  * WARRANTIES OF DESIGN, MERCHANTIBILITY AND FITNESS FOR A PARTICULAR
  * PURPOSE, OR ARISING FROM A COURSE OF DEALING, USAGE OR TRADE PRACTICE.
- * 
+ *
  * Sun RPC is provided with no support and without any obligation on the
  * part of Sun Microsystems, Inc. to assist in its use, correction,
  * modification or enhancement.
- * 
+ *
  * SUN MICROSYSTEMS, INC. SHALL HAVE NO LIABILITY WITH RESPECT TO THE
  * INFRINGEMENT OF COPYRIGHTS, TRADE SECRETS OR ANY PATENTS BY SUN RPC
  * OR ANY PART THEREOF.
- * 
+ *
  * In no event will Sun Microsystems, Inc. be liable for any lost revenue
  * or profits or other special, indirect and consequential damages, even if
  * Sun has been advised of the possibility of such damages.
- * 
+ *
  * Sun Microsystems, Inc.
  * 2550 Garcia Avenue
  * Mountain View, California  94043
@@ -80,32 +80,27 @@ extern int errno;
  * Get a copy of the current port maps.
  * Calls the pmap service remotely to do get the maps.
  */
-struct pmaplist *
-pmap_getmaps(address)
-	 struct sockaddr_in *address;
-{
-	struct pmaplist *head = (struct pmaplist *)NULL;
-	int socket = -1;
-	struct timeval minutetimeout;
-	register CLIENT *client;
+struct pmaplist* pmap_getmaps(struct sockaddr_in* address) {
+    struct pmaplist* head = (struct pmaplist*)NULL;
+    int socket = -1;
+    struct timeval minutetimeout;
+    register CLIENT* client;
 
-	minutetimeout.tv_sec = 60;
-	minutetimeout.tv_usec = 0;
-	address->sin_port = htons(PMAPPORT);
-	client = clnttcp_create(address, PMAPPROG,
-	    PMAPVERS, &socket, 50, 500);
-	if (client != (CLIENT *)NULL) {
-		if (CLNT_CALL(client, PMAPPROC_DUMP, xdr_void, NULL, xdr_pmaplist,
-		    &head, minutetimeout) != RPC_SUCCESS) {
-			clnt_perror(client, "pmap_getmaps rpc problem");
-		}
-		CLNT_DESTROY(client);
-	}
+    minutetimeout.tv_sec = 60;
+    minutetimeout.tv_usec = 0;
+    address->sin_port = htons(PMAPPORT);
+    client = clnttcp_create(address, PMAPPROG, PMAPVERS, &socket, 50, 500);
+    if (client != (CLIENT*)NULL) {
+        if (CLNT_CALL(client, PMAPPROC_DUMP, xdr_void, NULL, xdr_pmaplist, &head, minutetimeout) != RPC_SUCCESS) {
+            clnt_perror(client, "pmap_getmaps rpc problem");
+        }
+        CLNT_DESTROY(client);
+    }
 #ifdef WIN32
-	(void)closesocket(socket);
+    (void)closesocket(socket);
 #else
-	(void)close(socket);
+    (void)close(socket);
 #endif
-	address->sin_port = 0;
-	return (head);
+    address->sin_port = 0;
+    return (head);
 }

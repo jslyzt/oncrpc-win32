@@ -68,6 +68,6 @@ struct rpcent {
 #define _STRUCT_RPCENT 1
 #endif /* _STRUCT_RPCENT */
 
-DllExport struct rpcent *getrpcbyname();
-DllExport struct rpcent *getrpcbynumber();
+DllExport struct rpcent *getrpcbyname(char* name);
+DllExport struct rpcent *getrpcbynumber(register int number);
 DllExport struct rpcent *getrpcent();

@@ -6,23 +6,23 @@
  *
  * SUN's ONC RPC for Windows NT and Windows 95. Ammended port from
  * Martin F.Gergeleit's distribution. This version has been modified
- * and cleaned, such as to be compatible with Windows NT and Windows 95. 
+ * and cleaned, such as to be compatible with Windows NT and Windows 95.
  * Compiler: MSVC++ version 4.2 and 5.0.
  *
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  **********************************************************************/
 /*********************************************************************
  * RPC for the Windows NT Operating System
  * 1993 by Martin F. Gergeleit
- * Users may use, copy or modify Sun RPC for the Windows NT Operating 
+ * Users may use, copy or modify Sun RPC for the Windows NT Operating
  * System according to the Sun copyright below.
  *
- * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO 
- * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE 
+ * RPC for the Windows NT Operating System COMES WITH ABSOLUTELY NO
+ * WARRANTY, NOR WILL I BE LIABLE FOR ANY DAMAGES INCURRED FROM THE
  * USE OF. USE ENTIRELY AT YOUR OWN RISK!!!
  *********************************************************************/
 
@@ -80,12 +80,12 @@ static bool_t		svcudp_freeargs();
 static void		svcudp_destroy();
 
 static struct xp_ops svcudp_op = {
-	svcudp_recv,
-	svcudp_stat,
-	svcudp_getargs,
-	svcudp_reply,
-	svcudp_freeargs,
-	svcudp_destroy
+    svcudp_recv,
+    svcudp_stat,
+    svcudp_getargs,
+    svcudp_reply,
+    svcudp_freeargs,
+    svcudp_destroy
 };
 
 #ifndef WIN32
@@ -96,16 +96,16 @@ extern int errno;
  * kept in xprt->xp_p2
  */
 struct svcudp_data {
-	u_int   su_iosz;	/* byte size of send.recv buffer */
-	u_long	su_xid;		/* transaction id */
-	XDR	su_xdrs;	/* XDR handle */
-	char	su_verfbody[MAX_AUTH_BYTES];	/* verifier body */
-	char * 	su_cache;	/* cached data, NULL if no cache */
+    u_int   su_iosz;	/* byte size of send.recv buffer */
+    u_long	su_xid;		/* transaction id */
+    XDR	su_xdrs;	/* XDR handle */
+    char	su_verfbody[MAX_AUTH_BYTES];	/* verifier body */
+    char* 	su_cache;	/* cached data, NULL if no cache */
 };
 #define	su_data(xprt)	((struct svcudp_data *)(xprt->xp_p2))
 
-static cache_get(SVCXPRT *xprt, struct rpc_msg *msg, char **replyp, u_long *replylenp);
-static void cache_set(SVCXPRT *xprt, u_long replylen);
+static u_short cache_get(SVCXPRT* xprt, struct rpc_msg* msg, char** replyp, u_long* replylenp);
+static void cache_set(SVCXPRT* xprt, u_long replylen);
 
 
 /*
@@ -121,206 +121,170 @@ static void cache_set(SVCXPRT *xprt, u_long replylen);
  * see (svc.h, xprt_register).
  * The routines returns NULL if a problem occurred.
  */
-SVCXPRT *
-svcudp_bufcreate(sock, sendsz, recvsz)
-	register int sock;
-	u_int sendsz, recvsz;
-{
-	bool_t madesock = FALSE;
-	register SVCXPRT *xprt;
-	register struct svcudp_data *su;
-	struct sockaddr_in addr;
-	int len = sizeof(struct sockaddr_in);
+SVCXPRT* svcudp_bufcreate(register int sock, u_int sendsz, u_int recvsz) {
+    bool_t madesock = FALSE;
+    register SVCXPRT* xprt;
+    register struct svcudp_data* su;
+    struct sockaddr_in addr;
+    int len = sizeof(struct sockaddr_in);
 
-	if (sock == RPC_ANYSOCK) {
+    if (sock == RPC_ANYSOCK) {
 #ifdef WIN32
-		if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET) {
+        if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET) {
 #else
-		if ((sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
+        if ((sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
 #endif
-			perror("svcudp_create: socket creation problem");
-			return ((SVCXPRT *)NULL);
-		}
-		madesock = TRUE;
-	}
-	bzero((char *)&addr, sizeof (addr));
-	addr.sin_family = AF_INET;
-	if (bindresvport(sock, &addr)) {
-		addr.sin_port = 0;
-		(void)bind(sock, (struct sockaddr *)&addr, len);
-	}
-	if (getsockname(sock, (struct sockaddr *)&addr, &len) != 0) {
-		perror("svcudp_create - cannot getsockname");
-		if (madesock)
+            perror("svcudp_create: socket creation problem");
+            return ((SVCXPRT*)NULL);
+        }
+        madesock = TRUE;
+    }
+    bzero((char*)&addr, sizeof(addr));
+    addr.sin_family = AF_INET;
+    if (bindresvport(sock, &addr)) {
+        addr.sin_port = 0;
+        (void)bind(sock, (struct sockaddr*)&addr, len);
+    }
+    if (getsockname(sock, (struct sockaddr*)&addr, &len) != 0) {
+        perror("svcudp_create - cannot getsockname");
+        if (madesock)
 #ifdef WIN32
-			(void)closesocket(sock);
+            (void)closesocket(sock);
 #else
-			(void)close(sock);
+            (void)close(sock);
 #endif
-		return ((SVCXPRT *)NULL);
-	}
-	xprt = (SVCXPRT *)mem_alloc(sizeof(SVCXPRT));
-	if (xprt == NULL) {
+        return ((SVCXPRT*)NULL);
+    }
+    xprt = (SVCXPRT*)mem_alloc(sizeof(SVCXPRT));
+    if (xprt == NULL) {
 #ifdef WIN32
-		nt_rpc_report("svcudp_create: out of memory\n");
+        nt_rpc_report("svcudp_create: out of memory\n");
 #else
-		(void)fprintf(stderr, "svcudp_create: out of memory\n");
+        (void)fprintf(stderr, "svcudp_create: out of memory\n");
 #endif
-		return (NULL);
-	}
-	su = (struct svcudp_data *)mem_alloc(sizeof(*su));
-	if (su == NULL) {
+        return (NULL);
+    }
+    su = (struct svcudp_data*)mem_alloc(sizeof(*su));
+    if (su == NULL) {
 #ifdef WIN32
-		nt_rpc_report("svcudp_create: out of memory\n");
+        nt_rpc_report("svcudp_create: out of memory\n");
 #else
-		(void)fprintf(stderr, "svcudp_create: out of memory\n");
+        (void)fprintf(stderr, "svcudp_create: out of memory\n");
 #endif
-		return (NULL);
-	}
-	su->su_iosz = ((MAX(sendsz, recvsz) + 3) / 4) * 4;
-	if ((rpc_buffer(xprt) = mem_alloc(su->su_iosz)) == NULL) {
+        return (NULL);
+    }
+    su->su_iosz = ((MAX(sendsz, recvsz) + 3) / 4) * 4;
+    if ((rpc_buffer(xprt) = mem_alloc(su->su_iosz)) == NULL) {
 #ifdef WIN32
-		nt_rpc_report("svcudp_create: out of memory\n");
+        nt_rpc_report("svcudp_create: out of memory\n");
 #else
-		(void)fprintf(stderr, "svcudp_create: out of memory\n");
+        (void)fprintf(stderr, "svcudp_create: out of memory\n");
 #endif
-		return (NULL);
-	}
-	xdrmem_create(
-	    &(su->su_xdrs), rpc_buffer(xprt), su->su_iosz, XDR_DECODE);
-	su->su_cache = NULL;
-	xprt->xp_p2 = (caddr_t)su;
-	xprt->xp_verf.oa_base = su->su_verfbody;
-	xprt->xp_ops = &svcudp_op;
-	xprt->xp_port = ntohs(addr.sin_port);
-	xprt->xp_sock = sock;
-	xprt_register(xprt);
-	return (xprt);
+        return (NULL);
+    }
+    xdrmem_create(
+        &(su->su_xdrs), rpc_buffer(xprt), su->su_iosz, XDR_DECODE);
+    su->su_cache = NULL;
+    xprt->xp_p2 = (caddr_t)su;
+    xprt->xp_verf.oa_base = su->su_verfbody;
+    xprt->xp_ops = &svcudp_op;
+    xprt->xp_port = ntohs(addr.sin_port);
+    xprt->xp_sock = sock;
+    xprt_register(xprt);
+    return (xprt);
 }
 
-SVCXPRT *
-svcudp_create(sock)
-	int sock;
-{
-
-	return(svcudp_bufcreate(sock, UDPMSGSIZE, UDPMSGSIZE));
+SVCXPRT* svcudp_create(int sock) {
+    return (svcudp_bufcreate(sock, UDPMSGSIZE, UDPMSGSIZE));
 }
 
-static enum xprt_stat
-svcudp_stat(xprt)
-	SVCXPRT *xprt;
-{
-
-	return (XPRT_IDLE);
+static enum xprt_stat svcudp_stat(SVCXPRT* xprt) {
+    return (XPRT_IDLE);
 }
 
-static bool_t
-svcudp_recv(xprt, msg)
-	register SVCXPRT *xprt;
-	struct rpc_msg *msg;
-{
-	register struct svcudp_data *su = su_data(xprt);
-	register XDR *xdrs = &(su->su_xdrs);
-	register int rlen;
-	char *reply;
-	u_long replylen;
+static bool_t svcudp_recv(register SVCXPRT* xprt, struct rpc_msg* msg) {
+    register struct svcudp_data* su = su_data(xprt);
+    register XDR* xdrs = &(su->su_xdrs);
+    register int rlen;
+    char* reply;
+    u_long replylen;
 
-    again:
-	xprt->xp_addrlen = sizeof(struct sockaddr_in);
-	rlen = recvfrom(xprt->xp_sock, rpc_buffer(xprt), (int) su->su_iosz,
-	    0, (struct sockaddr *)&(xprt->xp_raddr), &(xprt->xp_addrlen));
+again:
+    xprt->xp_addrlen = sizeof(struct sockaddr_in);
+    rlen = recvfrom(xprt->xp_sock, rpc_buffer(xprt), (int) su->su_iosz,
+                    0, (struct sockaddr*) & (xprt->xp_raddr), &(xprt->xp_addrlen));
 #ifdef WIN32
-	if (rlen == -1 && WSAerrno == WSAEINTR)
+    if (rlen == -1 && WSAerrno == WSAEINTR)
 #else
-	if (rlen == -1 && errno == EINTR)
+    if (rlen == -1 && errno == EINTR)
 #endif
-		goto again;
-	if (rlen < 4*sizeof(u_long))
-		return (FALSE);
-	xdrs->x_op = XDR_DECODE;
-	XDR_SETPOS(xdrs, 0);
-	if (! xdr_callmsg(xdrs, msg))
-		return (FALSE);
-	su->su_xid = msg->rm_xid;
-	if (su->su_cache != NULL) {
-		if (cache_get(xprt, msg, &reply, &replylen)) {
+        goto again;
+    if (rlen < 4 * sizeof(u_long))
+        return (FALSE);
+    xdrs->x_op = XDR_DECODE;
+    XDR_SETPOS(xdrs, 0);
+    if (! xdr_callmsg(xdrs, msg))
+        return (FALSE);
+    su->su_xid = msg->rm_xid;
+    if (su->su_cache != NULL) {
+        if (cache_get(xprt, msg, &reply, &replylen)) {
 #ifdef WIN32
-			  sendto(xprt->xp_sock, reply, (int) replylen, 0,
+            sendto(xprt->xp_sock, reply, (int) replylen, 0,
 #else
-			(void) sendto(xprt->xp_sock, reply, (int) replylen, 0,
+            (void) sendto(xprt->xp_sock, reply, (int) replylen, 0,
 #endif
-			  (struct sockaddr *) &xprt->xp_raddr, xprt->xp_addrlen);
-			return (TRUE);
-		}
-	}
-	return (TRUE);
+                   (struct sockaddr*) &xprt->xp_raddr, xprt->xp_addrlen);
+            return (TRUE);
+        }
+    }
+    return (TRUE);
 }
 
-static bool_t
-svcudp_reply(xprt, msg)
-	register SVCXPRT *xprt;
-	struct rpc_msg *msg;
-{
-	register struct svcudp_data *su = su_data(xprt);
-	register XDR *xdrs = &(su->su_xdrs);
-	register int slen;
-	register bool_t stat = FALSE;
+static bool_t svcudp_reply(register SVCXPRT* xprt, struct rpc_msg* msg) {
+    register struct svcudp_data* su = su_data(xprt);
+    register XDR* xdrs = &(su->su_xdrs);
+    register int slen;
+    register bool_t stat = FALSE;
 
-	xdrs->x_op = XDR_ENCODE;
-	XDR_SETPOS(xdrs, 0);
-	msg->rm_xid = su->su_xid;
-	if (xdr_replymsg(xdrs, msg)) {
-		slen = (int)XDR_GETPOS(xdrs);
-		if (sendto(xprt->xp_sock, rpc_buffer(xprt), slen, 0,
-		    (struct sockaddr *)&(xprt->xp_raddr), xprt->xp_addrlen)
-		    == slen) {
-			stat = TRUE;
-			if (su->su_cache && slen >= 0) {
-				cache_set(xprt, (u_long) slen);
-			}
-		}
-	}
-	return (stat);
+    xdrs->x_op = XDR_ENCODE;
+    XDR_SETPOS(xdrs, 0);
+    msg->rm_xid = su->su_xid;
+    if (xdr_replymsg(xdrs, msg)) {
+        slen = (int)XDR_GETPOS(xdrs);
+        if (sendto(xprt->xp_sock, rpc_buffer(xprt), slen, 0,
+                   (struct sockaddr*) & (xprt->xp_raddr), xprt->xp_addrlen)
+                == slen) {
+            stat = TRUE;
+            if (su->su_cache && slen >= 0) {
+                cache_set(xprt, (u_long) slen);
+            }
+        }
+    }
+    return (stat);
 }
 
-static bool_t
-svcudp_getargs(xprt, xdr_args, args_ptr)
-	SVCXPRT *xprt;
-	xdrproc_t xdr_args;
-	caddr_t args_ptr;
-{
-
-	return ((*xdr_args)(&(su_data(xprt)->su_xdrs), args_ptr));
+static bool_t svcudp_getargs(SVCXPRT* xprt, xdrproc_t xdr_args, caddr_t args_ptr) {
+    return ((*xdr_args)(&(su_data(xprt)->su_xdrs), args_ptr));
 }
 
-static bool_t
-svcudp_freeargs(xprt, xdr_args, args_ptr)
-	SVCXPRT *xprt;
-	xdrproc_t xdr_args;
-	caddr_t args_ptr;
-{
-	register XDR *xdrs = &(su_data(xprt)->su_xdrs);
-
-	xdrs->x_op = XDR_FREE;
-	return ((*xdr_args)(xdrs, args_ptr));
+static bool_t svcudp_freeargs(SVCXPRT* xprt, xdrproc_t xdr_args, caddr_t args_ptr) {
+    register XDR* xdrs = &(su_data(xprt)->su_xdrs);
+    xdrs->x_op = XDR_FREE;
+    return ((*xdr_args)(xdrs, args_ptr));
 }
 
-static void
-svcudp_destroy(xprt)
-	register SVCXPRT *xprt;
-{
-	register struct svcudp_data *su = su_data(xprt);
-
-	xprt_unregister(xprt);
+static void svcudp_destroy(register SVCXPRT* xprt) {
+    register struct svcudp_data* su = su_data(xprt);
+    xprt_unregister(xprt);
 #ifdef WIN32
-	(void)closesocket(xprt->xp_sock);
+    (void)closesocket(xprt->xp_sock);
 #else
-	(void)close(xprt->xp_sock);
+    (void)close(xprt->xp_sock);
 #endif
-	XDR_DESTROY(&(su->su_xdrs));
-	mem_free(rpc_buffer(xprt), su->su_iosz);
-	mem_free((caddr_t)su, sizeof(struct svcudp_data));
-	mem_free((caddr_t)xprt, sizeof(SVCXPRT));
+    XDR_DESTROY(&(su->su_xdrs));
+    mem_free(rpc_buffer(xprt), su->su_iosz);
+    mem_free((caddr_t)su, sizeof(struct svcudp_data));
+    mem_free((caddr_t)xprt, sizeof(SVCXPRT));
 }
 
 
@@ -351,25 +315,25 @@ svcudp_destroy(xprt)
 /*
  * An entry in the cache
  */
-typedef struct cache_node *cache_ptr;
+typedef struct cache_node* cache_ptr;
 struct cache_node {
-	/*
-	 * Index into cache is xid, proc, vers, prog and address
-	 */
-	u_long cache_xid;
-	u_long cache_proc;
-	u_long cache_vers;
-	u_long cache_prog;
-	struct sockaddr_in cache_addr;
-	/*
-	 * The cached reply and length
-	 */
-	char * cache_reply;
-	u_long cache_replylen;
-	/*
- 	 * Next node on the list, if there is a collision
-	 */
-	cache_ptr cache_next;
+    /*
+     * Index into cache is xid, proc, vers, prog and address
+     */
+    u_long cache_xid;
+    u_long cache_proc;
+    u_long cache_vers;
+    u_long cache_prog;
+    struct sockaddr_in cache_addr;
+    /*
+     * The cached reply and length
+     */
+    char* cache_reply;
+    u_long cache_replylen;
+    /*
+     * Next node on the list, if there is a collision
+     */
+    cache_ptr cache_next;
 };
 
 
@@ -378,14 +342,14 @@ struct cache_node {
  * The entire cache
  */
 struct udp_cache {
-	u_long uc_size;		/* size of cache */
-	cache_ptr *uc_entries;	/* hash table of entries in cache */
-	cache_ptr *uc_fifo;	/* fifo list of entries in cache */
-	u_long uc_nextvictim;	/* points to next victim in fifo list */
-	u_long uc_prog;		/* saved program number */
-	u_long uc_vers;		/* saved version number */
-	u_long uc_proc;		/* saved procedure number */
-	struct sockaddr_in uc_addr; /* saved caller's address */
+    u_long uc_size;		/* size of cache */
+    cache_ptr* uc_entries;	/* hash table of entries in cache */
+    cache_ptr* uc_fifo;	/* fifo list of entries in cache */
+    u_long uc_nextvictim;	/* points to next victim in fifo list */
+    u_long uc_prog;		/* saved program number */
+    u_long uc_vers;		/* saved version number */
+    u_long uc_proc;		/* saved procedure number */
+    struct sockaddr_in uc_addr; /* saved caller's address */
 };
 
 
@@ -400,142 +364,129 @@ struct udp_cache {
  * Enable use of the cache.
  * Note: there is no disable.
  */
-svcudp_enablecache(transp, size)
-	SVCXPRT *transp;
-	u_long size;
-{
-	struct svcudp_data *su = su_data(transp);
-	struct udp_cache *uc;
+u_short svcudp_enablecache(SVCXPRT* transp, u_long size) {
+    struct svcudp_data* su = su_data(transp);
+    struct udp_cache* uc;
 
-	if (su->su_cache != NULL) {
-		CACHE_PERROR("enablecache: cache already enabled");
-		return(0);
-	}
-	uc = ALLOC(struct udp_cache, 1);
-	if (uc == NULL) {
-		CACHE_PERROR("enablecache: could not allocate cache");
-		return(0);
-	}
-	uc->uc_size = size;
-	uc->uc_nextvictim = 0;
-	uc->uc_entries = ALLOC(cache_ptr, size * SPARSENESS);
-	if (uc->uc_entries == NULL) {
-		CACHE_PERROR("enablecache: could not allocate cache data");
-		return(0);
-	}
-	BZERO(uc->uc_entries, cache_ptr, size * SPARSENESS);
-	uc->uc_fifo = ALLOC(cache_ptr, size);
-	if (uc->uc_fifo == NULL) {
-		CACHE_PERROR("enablecache: could not allocate cache fifo");
-		return(0);
-	}
-	BZERO(uc->uc_fifo, cache_ptr, size);
-	su->su_cache = (char *) uc;
-	return(1);
+    if (su->su_cache != NULL) {
+        CACHE_PERROR("enablecache: cache already enabled");
+        return (0);
+    }
+    uc = ALLOC(struct udp_cache, 1);
+    if (uc == NULL) {
+        CACHE_PERROR("enablecache: could not allocate cache");
+        return (0);
+    }
+    uc->uc_size = size;
+    uc->uc_nextvictim = 0;
+    uc->uc_entries = ALLOC(cache_ptr, size * SPARSENESS);
+    if (uc->uc_entries == NULL) {
+        CACHE_PERROR("enablecache: could not allocate cache data");
+        return (0);
+    }
+    BZERO(uc->uc_entries, cache_ptr, size * SPARSENESS);
+    uc->uc_fifo = ALLOC(cache_ptr, size);
+    if (uc->uc_fifo == NULL) {
+        CACHE_PERROR("enablecache: could not allocate cache fifo");
+        return (0);
+    }
+    BZERO(uc->uc_fifo, cache_ptr, size);
+    su->su_cache = (char*) uc;
+    return (1);
 }
 
 /*
  * Set an entry in the cache
  */
-static void
-cache_set(xprt, replylen)
-	SVCXPRT *xprt;
-	u_long replylen;
-{
-	register cache_ptr victim;
-	register cache_ptr *vicp;
-	register struct svcudp_data *su = su_data(xprt);
-	struct udp_cache *uc = (struct udp_cache *) su->su_cache;
-	u_int loc;
-	char *newbuf;
+static void cache_set(SVCXPRT* xprt, u_long replylen) {
+    register cache_ptr victim;
+    register cache_ptr* vicp;
+    register struct svcudp_data* su = su_data(xprt);
+    struct udp_cache* uc = (struct udp_cache*) su->su_cache;
+    u_int loc;
+    char* newbuf;
 
-	/*
- 	 * Find space for the new entry, either by
-	 * reusing an old entry, or by mallocing a new one
-	 */
-	victim = uc->uc_fifo[uc->uc_nextvictim];
-	if (victim != NULL) {
-		loc = CACHE_LOC(xprt, victim->cache_xid);
-		for (vicp = &uc->uc_entries[loc];
-		  *vicp != NULL && *vicp != victim;
-		  vicp = &(*vicp)->cache_next)
-				;
-		if (*vicp == NULL) {
-			CACHE_PERROR("cache_set: victim not found");
-			return;
-		}
-		*vicp = victim->cache_next;	/* remote from cache */
-		newbuf = victim->cache_reply;
-	} else {
-		victim = ALLOC(struct cache_node, 1);
-		if (victim == NULL) {
-			CACHE_PERROR("cache_set: victim alloc failed");
-			return;
-		}
-		newbuf = mem_alloc(su->su_iosz);
-		if (newbuf == NULL) {
-			CACHE_PERROR("cache_set: could not allocate new rpc_buffer");
-			return;
-		}
-	}
+    /*
+     * Find space for the new entry, either by
+     * reusing an old entry, or by mallocing a new one
+     */
+    victim = uc->uc_fifo[uc->uc_nextvictim];
+    if (victim != NULL) {
+        loc = CACHE_LOC(xprt, victim->cache_xid);
+        for (vicp = &uc->uc_entries[loc];
+                *vicp != NULL && *vicp != victim;
+                vicp = &(*vicp)->cache_next)
+            ;
+        if (*vicp == NULL) {
+            CACHE_PERROR("cache_set: victim not found");
+            return;
+        }
+        *vicp = victim->cache_next;	/* remote from cache */
+        newbuf = victim->cache_reply;
+    } else {
+        victim = ALLOC(struct cache_node, 1);
+        if (victim == NULL) {
+            CACHE_PERROR("cache_set: victim alloc failed");
+            return;
+        }
+        newbuf = mem_alloc(su->su_iosz);
+        if (newbuf == NULL) {
+            CACHE_PERROR("cache_set: could not allocate new rpc_buffer");
+            return;
+        }
+    }
 
-	/*
-	 * Store it away
-	 */
-	victim->cache_replylen = replylen;
-	victim->cache_reply = rpc_buffer(xprt);
-	rpc_buffer(xprt) = newbuf;
-	xdrmem_create(&(su->su_xdrs), rpc_buffer(xprt), su->su_iosz, XDR_ENCODE);
-	victim->cache_xid = su->su_xid;
-	victim->cache_proc = uc->uc_proc;
-	victim->cache_vers = uc->uc_vers;
-	victim->cache_prog = uc->uc_prog;
-	victim->cache_addr = uc->uc_addr;
-	loc = CACHE_LOC(xprt, victim->cache_xid);
-	victim->cache_next = uc->uc_entries[loc];
-	uc->uc_entries[loc] = victim;
-	uc->uc_fifo[uc->uc_nextvictim++] = victim;
-	uc->uc_nextvictim %= uc->uc_size;
+    /*
+     * Store it away
+     */
+    victim->cache_replylen = replylen;
+    victim->cache_reply = rpc_buffer(xprt);
+    rpc_buffer(xprt) = newbuf;
+    xdrmem_create(&(su->su_xdrs), rpc_buffer(xprt), su->su_iosz, XDR_ENCODE);
+    victim->cache_xid = su->su_xid;
+    victim->cache_proc = uc->uc_proc;
+    victim->cache_vers = uc->uc_vers;
+    victim->cache_prog = uc->uc_prog;
+    victim->cache_addr = uc->uc_addr;
+    loc = CACHE_LOC(xprt, victim->cache_xid);
+    victim->cache_next = uc->uc_entries[loc];
+    uc->uc_entries[loc] = victim;
+    uc->uc_fifo[uc->uc_nextvictim++] = victim;
+    uc->uc_nextvictim %= uc->uc_size;
 }
 
 /*
  * Try to get an entry from the cache
  * return 1 if found, 0 if not found
  */
-static
-cache_get(xprt, msg, replyp, replylenp)
-	SVCXPRT *xprt;
-	struct rpc_msg *msg;
-	char **replyp;
-	u_long *replylenp;
-{
-	u_int loc;
-	register cache_ptr ent;
-	register struct svcudp_data *su = su_data(xprt);
-	register struct udp_cache *uc = (struct udp_cache *) su->su_cache;
+static u_short cache_get(SVCXPRT* xprt, struct rpc_msg* msg, char** replyp, u_long* replylenp) {
+    u_int loc;
+    register cache_ptr ent;
+    register struct svcudp_data* su = su_data(xprt);
+    register struct udp_cache* uc = (struct udp_cache*) su->su_cache;
 
 #	define EQADDR(a1, a2)	(bcmp((char*)&a1, (char*)&a2, sizeof(a1)) == 0)
 
-	loc = CACHE_LOC(xprt, su->su_xid);
-	for (ent = uc->uc_entries[loc]; ent != NULL; ent = ent->cache_next) {
-		if (ent->cache_xid == su->su_xid &&
-		  ent->cache_proc == uc->uc_proc &&
-		  ent->cache_vers == uc->uc_vers &&
-		  ent->cache_prog == uc->uc_prog &&
-		  EQADDR(ent->cache_addr, uc->uc_addr)) {
-			*replyp = ent->cache_reply;
-			*replylenp = ent->cache_replylen;
-			return(1);
-		}
-	}
-	/*
-	 * Failed to find entry
-	 * Remember a few things so we can do a set later
-	 */
-	uc->uc_proc = msg->rm_call.cb_proc;
-	uc->uc_vers = msg->rm_call.cb_vers;
-	uc->uc_prog = msg->rm_call.cb_prog;
-	uc->uc_addr = xprt->xp_raddr;
-	return(0);
+    loc = CACHE_LOC(xprt, su->su_xid);
+    for (ent = uc->uc_entries[loc]; ent != NULL; ent = ent->cache_next) {
+        if (ent->cache_xid == su->su_xid &&
+                ent->cache_proc == uc->uc_proc &&
+                ent->cache_vers == uc->uc_vers &&
+                ent->cache_prog == uc->uc_prog &&
+                EQADDR(ent->cache_addr, uc->uc_addr)) {
+            *replyp = ent->cache_reply;
+            *replylenp = ent->cache_replylen;
+            return (1);
+        }
+    }
+    /*
+     * Failed to find entry
+     * Remember a few things so we can do a set later
+     */
+    uc->uc_proc = msg->rm_call.cb_proc;
+    uc->uc_vers = msg->rm_call.cb_vers;
+    uc->uc_prog = msg->rm_call.cb_prog;
+    uc->uc_addr = xprt->xp_raddr;
+    return (0);
 }
 

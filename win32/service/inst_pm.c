@@ -73,7 +73,7 @@ VOID RemoveService(LPCTSTR serviceName) {
         printf("failure: DeleteService (0x%02x)\n", GetLastError());
 }
 
-VOID main(int argc, char* argv[]) {
+void main(int argc, char* argv[]) {
     if (argc != 2) {
         printf("usage: inst_pm <full pathname>\\portmap.exe\n");
         printf("           to install portmap, or:\n");
