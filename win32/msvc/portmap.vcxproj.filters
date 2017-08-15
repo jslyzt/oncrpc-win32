@@ -65,10 +65,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\service\portmap.c">
+    <ClCompile Include="..\service\service.c">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\service\service.c">
+    <ClCompile Include="..\service\sportmap.c">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

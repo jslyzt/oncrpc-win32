@@ -30,7 +30,7 @@
     <ClInclude Include="..\include\rpc\xdr.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\service\portmap.c" />
+    <ClCompile Include="..\service\sportmap.c" />
     <ClCompile Include="..\service\service.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

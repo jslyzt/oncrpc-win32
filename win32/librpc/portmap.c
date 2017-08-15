@@ -78,7 +78,7 @@ static	char sccsid[] = "@(#)portmap.c 1.2 85/03/13 Copyr 1984 Sun Micro";
 #include <stdio.h>
 
 int reg_service();
-static callit();
+static void callit(struct svc_req* rqstp, SVCXPRT* xprt);
 
 #ifdef DEBUG
 #define	syslog(e, s)	fprintf(stderr, (s))
@@ -425,10 +425,7 @@ struct rmtcallargs* cap;
  * a machine should shut-up instead of complain, less the requestor be
  * overrun with complaints at the expense of not hearing a valid reply ...
  */
-static
-callit(rqstp, xprt)
-struct svc_req* rqstp;
-SVCXPRT* xprt;
+static void callit(struct svc_req* rqstp, SVCXPRT* xprt)
 {
     char buf[2000];
     struct rmtcallargs a;
